@@ -1,9 +1,12 @@
 'use client';
 
+/* eslint-disable @next/next/no-img-element */
+// Her page on you. Written in her voice: what you like, where you stopped, what you almost said.
 import { useEffect, useMemo, useState } from 'react';
 import { useDemo } from '@/lib/DemoContext';
 import { committedLines, deletedLines, pageOf, pendingLines } from '@/lib/diaryStore';
 import { isExpired, shortIso } from '@/lib/demoClock';
+import { CHARACTER } from '@/lib/fakeModel';
 import type { DiaryLine, Rejected } from '@/lib/types';
 import Typewriter from './Typewriter';
 import styles from './DiaryDrawer.module.css';
@@ -13,6 +16,12 @@ const REASON: Record<Rejected['reason'], string> = {
   money: 'money',
   minor: 'a child',
   third_party: 'someone else',
+};
+
+const KIND: Record<DiaryLine['kind'], string> = {
+  taste: 'how you like it',
+  fact: 'about you',
+  scene: 'where we were',
 };
 
 export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer' | 'panel' }) {
@@ -36,7 +45,6 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
     if (freshIds.length > 0 && typedCount >= freshIds.length) markSeen();
   }, [freshIds.length, typedCount, markSeen]);
 
-  // Pulses (a chip line, or a pending line that just firmed up) fade on their own.
   const hasPulse = shown.some((l) => l.pulse);
   useEffect(() => {
     if (!hasPulse || freshIds.length > 0) return;
@@ -46,18 +54,21 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
 
   if (!hydrated) return null;
 
+  const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
   const headline =
     consolidation === 'done' && lastRun
       ? lastRun.nothingNew
-        ? 'Nothing new to note'
+        ? 'Nothing new tonight. You were quiet.'
         : [
-            `${lastRun.writtenIds.length} written`,
-            lastRun.rejectedCount > 0 ? `${lastRun.rejectedCount} not kept` : null,
-            lastRun.keptOut > 0 ? `${lastRun.keptOut} deleted, kept out` : null,
+            `${lastRun.writtenIds.length} ${plural(lastRun.writtenIds.length, 'line', 'lines')} written down`,
+            lastRun.rejectedCount > 0 ? `${lastRun.rejectedCount} I kept to myself` : null,
+            lastRun.keptOut > 0 ? `${lastRun.keptOut} you crossed out, so I didn't` : null,
           ]
             .filter(Boolean)
             .join(' · ')
-      : `${noticedCount} noticed · ${writtenCount} written`;
+      : noticedCount > 0
+        ? `${noticedCount} ${plural(noticedCount, 'thing', 'things')} I'm noticing · ${writtenCount} written down`
+        : `${writtenCount} ${plural(writtenCount, 'line', 'lines')} on you so far`;
 
   return (
     <aside
@@ -80,12 +91,16 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
           </div>
         </div>
       )}
-      <div className={styles.head}>
-        <div>
-          {!panel && <h2 className={styles.title}>Her Diary</h2>}
-          <p className={styles.sub}>
-            She notices things as you talk, then writes the page when the conversation ends. Edit, delete or pin any line. Yours she
-            never touches.
+
+      <div className={styles.cover}>
+        <img className={styles.coverImg} src={CHARACTER.avatar} alt="" />
+        <div className={styles.coverShade} />
+        <div className={styles.coverText}>
+          <span className={styles.coverKicker}>{CHARACTER.name}&apos;s diary · pages about you</span>
+          <h2 className={styles.coverTitle}>I keep a page on you.</h2>
+          <p className={styles.coverSub}>
+            What you like. Where we stopped. What you almost said. You can read all of it, change anything, and cross out what I
+            shouldn&apos;t know.
           </p>
         </div>
         {!panel && (
@@ -98,7 +113,7 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
       <div className={styles.status} aria-live="polite">
         {consolidation === 'running' ? (
           <>
-            <span className={styles.pulseDot} /> Writing the page from your own words...
+            <span className={styles.pulseDot} /> Writing you down...
           </>
         ) : (
           <b>{headline}</b>
@@ -109,8 +124,8 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
         {(pending.length > 0 || pendingRejected.length > 0) && (
           <section className={styles.pendingBlock} aria-label="Noticing">
             <header className={styles.groupHead}>
-              <span>noticing</span>
-              <span className={styles.groupNote}>free, not in her prompt yet</span>
+              <span>I&apos;m noticing</span>
+              <span className={styles.groupNote}>not written down yet</span>
             </header>
             {pending.map((line) => (
               <PendingLine key={line.id} line={line} />
@@ -122,13 +137,13 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
         )}
 
         {shown.length === 0 && pending.length === 0 && pendingRejected.length === 0 && consolidation !== 'running' && (
-          <p className={styles.emptyPage}>Nothing yet. Say something and she starts noticing. End the conversation and she writes the page.</p>
+          <p className={styles.emptyPage}>Blank page. Say something. I&apos;m listening, and I write things down.</p>
         )}
 
         {shown.length > 0 && (pending.length > 0 || pendingRejected.length > 0) && (
           <header className={styles.groupHead}>
-            <span>her page</span>
-            <span className={styles.groupNote}>rides every turn</span>
+            <span>my page on you</span>
+            <span className={styles.groupNote}>with me every time we talk</span>
           </header>
         )}
 
@@ -156,20 +171,20 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
 
       {deleted.length > 0 && (
         <details className={styles.deleted}>
-          <summary>Deleted (won&apos;t return) · {deleted.length}</summary>
-          <p className={styles.deletedNote}>Shown for the demo. In the product these are gone; she only gets them as a do-not-write list.</p>
+          <summary>What you crossed out · {deleted.length}</summary>
+          <p className={styles.deletedNote}>I won&apos;t bring these up again. Shown here for the demo; in the product they are gone.</p>
           {deleted.map((l) => (
             <div key={l.id} className={styles.deletedLine}>
               <s>{l.text}</s>
-              <span className={styles.muted}>deleted {l.deletedAt} · won&apos;t come back</span>
+              <span className={styles.muted}>crossed out {l.deletedAt}</span>
             </div>
           ))}
         </details>
       )}
 
       <p className={styles.foot}>
-        Every line of hers points at one of your messages. Taste stays until you change it; story and dated lines expire. The page is capped
-        at 12 lines and rides every turn, so it never grows.
+        Every line points back at something you said to me. What you like, I keep. Where we were fades. Twelve lines, never more. The
+        rest I remember on my own.
       </p>
     </aside>
   );
@@ -180,9 +195,9 @@ function PendingLine({ line }: { line: DiaryLine }) {
     <article className={`${styles.line} ${styles.pendingLine}`}>
       <header className={styles.lineHead}>
         <span className={`tag ${styles.noticing}`}>noticing…</span>
-        <span className={`tag ${line.kind}`}>{line.kind === 'scene' ? 'story' : line.kind}</span>
+        <span className={`tag ${line.kind}`}>{KIND[line.kind]}</span>
       </header>
-      <p className={styles.text}>{line.text}</p>
+      <p className={`${styles.text} ${styles.ink}`}>{line.text}</p>
     </article>
   );
 }
@@ -192,12 +207,12 @@ function RejectedLine({ r }: { r: Rejected }) {
   return (
     <article className={`${styles.line} ${styles.pendingLine} ${rejecting ? styles.rejecting : ''}`} title={r.note}>
       <header className={styles.lineHead}>
-        <span className={`tag ${styles.noticing}`}>{rejecting ? 'not kept' : 'noticing…'}</span>
-        <span className={`tag ${styles.sensitive}`}>{rejecting ? REASON[r.reason] : 'sensitive?'}</span>
+        <span className={`tag ${styles.noticing}`}>{rejecting ? 'kept to myself' : 'noticing…'}</span>
+        <span className={`tag ${styles.sensitive}`}>{rejecting ? REASON[r.reason] : 'yours, not mine'}</span>
       </header>
-      <p className={styles.text}>
+      <p className={`${styles.text} ${styles.ink}`}>
         <span className={rejecting ? styles.struck : ''}>&ldquo;{r.fragment}&rdquo;</span>
-        {rejecting && <span className={styles.reason}> · not kept: {REASON[r.reason]}. {r.note}</span>}
+        {rejecting && <span className={styles.reason}> · {r.note}</span>}
       </p>
     </article>
   );
@@ -222,6 +237,7 @@ function Line({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(line.text);
   const expired = isExpired(line.expiresAt, dayOffset);
+  const hers = line.author === 'her';
 
   if (state === 'pending') return null;
 
@@ -232,23 +248,23 @@ function Line({
 
   return (
     <article
-      className={`${styles.line} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${folded ? styles.foldedLine : ''} ${
-        line.pulse ? styles.pulse : ''
-      }`}
+      className={`${styles.line} ${hers ? styles.hers : styles.yours} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${
+        folded ? styles.foldedLine : ''
+      } ${line.pulse ? styles.pulse : ''}`}
     >
       <header className={styles.lineHead}>
         <span className={styles.date}>{line.date}</span>
-        <span className={`tag ${line.author === 'her' ? 'hers' : 'yours'}`}>{line.author === 'her' ? 'hers' : 'yours'}</span>
-        <span className={`tag ${line.kind}`}>{line.kind === 'scene' ? 'story' : line.kind}</span>
-        {line.expiresAt && <span className={styles.expiry}>{expired ? 'expired' : `expires ${shortIso(line.expiresAt)}`}</span>}
-        {line.pinned && <span className={styles.pinMark}>pinned</span>}
+        <span className={`tag ${hers ? 'hers' : 'yours'}`}>{hers ? 'mine' : 'yours'}</span>
+        <span className={`tag ${line.kind}`}>{KIND[line.kind]}</span>
+        {line.expiresAt && <span className={styles.expiry}>{expired ? 'faded' : `fades ${shortIso(line.expiresAt)}`}</span>}
+        {line.pinned && <span className={styles.pinMark}>kept</span>}
       </header>
       {editing ? (
         <div className={styles.editBox}>
           <textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={3} aria-label="Edit line" autoFocus />
           <div className={styles.editActions}>
             <button type="button" onClick={save} className={styles.save}>
-              Save as yours
+              Make it yours
             </button>
             <button
               type="button"
@@ -257,25 +273,25 @@ function Line({
                 setEditing(false);
               }}
             >
-              Cancel
+              Leave it
             </button>
           </div>
         </div>
       ) : (
-        <p className={styles.text}>
+        <p className={`${styles.text} ${hers ? styles.ink : ''}`}>
           {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
         </p>
       )}
       {state === 'static' && !editing && (
         <div className={styles.actions}>
-          <button type="button" onClick={() => setEditing(true)} title="Edit: it becomes yours and she never rewrites it">
-            edit
+          <button type="button" onClick={() => setEditing(true)} title="Rewrite it: it becomes yours and I never touch it again">
+            rewrite
           </button>
-          <button type="button" onClick={() => togglePin(line.id)} title="Pinned lines stay at the top and never fold">
-            {line.pinned ? 'unpin' : 'pin'}
+          <button type="button" onClick={() => togglePin(line.id)} title="Kept lines stay at the top and never fade">
+            {line.pinned ? 'let go' : 'keep'}
           </button>
-          <button type="button" onClick={() => deleteLine(line.id)} className={styles.danger} title="Gone for good: she is told never to write it again">
-            delete
+          <button type="button" onClick={() => deleteLine(line.id)} className={styles.danger} title="Crossed out for good: I never write it again">
+            cross out
           </button>
         </div>
       )}

@@ -6,7 +6,6 @@ import Thread from '@/components/Thread';
 import Composer from '@/components/Composer';
 import ChatList from '@/components/ChatList';
 import DiaryDrawer from '@/components/DiaryDrawer';
-import ReturnPanels from '@/components/ReturnPanels';
 import DemoControls from '@/components/DemoControls';
 
 export default function Page() {
@@ -18,13 +17,13 @@ export default function Page() {
 }
 
 function App() {
-  const { mode, toast } = useDemo();
+  const { toast } = useDemo();
   return (
     <>
       <CandyShell
         slots={{
-          thread: mode === 'return' ? <ReturnPanels /> : <Thread />,
-          composer: mode === 'return' ? null : <Composer />,
+          thread: <Thread />,
+          composer: <Composer />,
           chatlist: <ChatList />,
           drawer: <DiaryDrawer variant="panel" />,
           controls: <DemoControls />,

@@ -1,15 +1,14 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import type { Chip, Diary, DiaryLine, Message, PanelKind, Rejected, UsageEntry, UsageKind } from './types';
+import type { Chip, Diary, DiaryLine, Message, Rejected, UsageEntry, UsageKind } from './types';
 import * as store from './diaryStore';
 import { callUsage } from './cost';
 import { isoAt, shortDate } from './demoClock';
-import { GENERIC_OPENER, SEED_THREAD, chipLine, consolidate, opener, reply } from './fakeModel';
+import { SEED_THREAD, chipLine, consolidate, opener, reply } from './fakeModel';
 import { notice } from './notice';
 
 export type ConsolidationState = 'idle' | 'running' | 'done';
-export type Mode = 'chat' | 'return';
 export type SessionKind = 'first' | 'return';
 
 export type LastRun = {
@@ -30,7 +29,6 @@ type DemoState = {
   lastRun: LastRun | null;
   chipsVisible: boolean;
   assistantTyping: boolean;
-  mode: Mode;
   dayOffset: number;
   today: string;
   sessionKind: SessionKind;
@@ -49,7 +47,6 @@ type DemoActions = {
   dismissChips: () => void;
   endConversation: () => void;
   comeBack: () => void;
-  pickPanel: (kind: PanelKind) => void;
   resetChat: () => void;
   restartDemo: () => void;
   toggleDrawer: () => void;
@@ -74,7 +71,6 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const [lastRun, setLastRun] = useState<LastRun | null>(null);
   const [chipsVisible, setChipsVisible] = useState(false);
   const [assistantTyping, setAssistantTyping] = useState(false);
-  const [mode, setMode] = useState<Mode>('chat');
   const [dayOffset, setDayOffset] = useState(0);
   const [sessionKind, setSessionKind] = useState<SessionKind>('first');
   const [openerText, setOpenerText] = useState<string | null>(null);
@@ -266,42 +262,28 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const comeBack = useCallback(() => {
     setChipsVisible(false);
     setConsolidation('idle');
-    setDrawerOpen(false); // the three panels need the full width
     setWasReset(false);
     setThread([]);
     setDiary((d) => store.clearPending(d)); // noticed but never committed: the conversation is over
     setPendingRejected([]);
-    setMode('return');
     setSessionKind('return');
     setDayOffset(2);
-    setOpenerText(null);
     enqueue(async () => {
+      // Two days later you open the app and she speaks first, from the page.
+      setAssistantTyping(true);
       const o = await opener(diaryRef.current, 2);
+      setAssistantTyping(false);
       logUsage('opener');
       setOpenerText(o.text);
+      setThread([{ id: nextId('a'), role: 'assistant', text: o.text, typed: true }]);
     });
   }, [enqueue, logUsage]);
-
-  const pickPanel = useCallback(
-    (kind: PanelKind) => {
-      setMode('chat');
-      setWasReset(false);
-      if (kind === 'silence') {
-        setThread([]);
-        return;
-      }
-      const text = kind === 'generic' ? GENERIC_OPENER : openerText ?? '';
-      setThread([{ id: nextId('a'), role: 'assistant', text, typed: false }]);
-    },
-    [openerText],
-  );
 
   const resetChat = useCallback(() => {
     setChipsVisible(false);
     setThread([]);
     setDiary((d) => store.clearPending(d));
     setPendingRejected([]);
-    setMode('chat');
     setWasReset(true);
     setConsolidation('idle');
     showToast('Chat reset. Her diary is untouched.');
@@ -340,7 +322,6 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       lastRun,
       chipsVisible,
       assistantTyping,
-      mode,
       dayOffset,
       today,
       sessionKind,
@@ -356,7 +337,6 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       dismissChips,
       endConversation,
       comeBack,
-      pickPanel,
       resetChat,
       restartDemo,
       toggleDrawer,
@@ -375,7 +355,6 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       lastRun,
       chipsVisible,
       assistantTyping,
-      mode,
       dayOffset,
       today,
       sessionKind,
@@ -391,7 +370,6 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       dismissChips,
       endConversation,
       comeBack,
-      pickPanel,
       resetChat,
       restartDemo,
       toggleDrawer,

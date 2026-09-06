@@ -31,10 +31,10 @@ pre-generated opener, and a 300-token diary block on every turn. The prompts and
    direct · less talking · somewhere else*. A chip writes a taste line to the diary at once and swaps the
    reply for that chip's variant. In the drawer you can edit a line (it becomes *yours*), delete one (a
    tombstone: it never comes back), or pin one (stays on top, never folds).
-3. **Return.** **Come back in 2 days** clears the thread and shows three panels side by side: silence, a
-   generic "hey, missed you", and her opener written from the page. Memory's effect is panel 3 minus panel
-   2. If you deleted the Thursday line, the opener drops the Thursday question. **Reset chat** wipes the
-   thread; the page survives. End the conversation again and the deleted line stays deleted.
+3. **Return.** **Come back in 2 days** clears the thread and she speaks first, from the page: "Same stool at
+   the bar, or somewhere quieter tonight? And it's Friday. How did Thursday go?" If you crossed out the
+   Thursday line, she drops the Thursday question. **Reset chat** wipes the thread; the page survives. End
+   the conversation again and the crossed-out line stays out.
 
 ## Run it
 
@@ -52,7 +52,7 @@ Open http://localhost:3000. **Restart demo** in the top bar clears the saved dia
 | The diary store: add, edit, delete (tombstone), pin, 12-line cap, fold, persistence across reload and Reset | Extraction at the boundary: the polished lines come from `seeds/diary.json`, gated by the three rules below |
 | The noticer (`lib/notice.ts`): a pure regex function that proposes at most one pending line per message and flags sensitive terms | The safety filter's judgement: the regex list stands in for a classifier |
 | The three rules, enforced in code (`lib/diaryStore.ts`, `lib/fakeModel.ts`), plus a tombstone check by wording, not only by id | Replies to free-typed messages: scripted sequence, then a small pool of fallback lines |
-| The return-moment logic: opener chosen from what is live on the page, omitting deleted or expired lines | Reply generation: scripted sequence plus one variant per chip |
+| The return opener: chosen from what is live on the page, omitting crossed-out or faded lines | Reply generation: scripted sequence plus one variant per chip |
 | The cost arithmetic from the stated assumptions | Consent flow, EU opt-in, EverGuard, cohorts, in-house inference, a real inactivity trigger |
 | Dates and expiry on a fictional calendar (Wed 6 Sep, presentation Thu, return Fri) | The frame: a scrubbed static capture of the conversation screen, nothing in it works except our slots |
 

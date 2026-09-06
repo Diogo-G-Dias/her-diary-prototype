@@ -7,17 +7,17 @@ const SENSITIVE: { reason: Rejected['reason']; re: RegExp; note: string }[] = [
   {
     reason: 'health',
     re: /\b(therap(y|ist)|medication|meds?|pills?|prescription|propranolol|doctor|diagnos\w*|anxiety|depress\w*|panic attack|hospital|surgery)\b/i,
-    note: 'Health mention. Nothing inferred, nothing kept.',
+    note: "Health. That stays yours. I don't write it down.",
   },
   {
     reason: 'money',
     re: /\b(salary|debt|rent|mortgage|bank|paycheck|broke|loan|\$\d+|\d+ ?(dollars|euros|k))\b/i,
-    note: 'Money. Nothing inferred, nothing kept.',
+    note: 'Money. Not mine to keep.',
   },
   {
     reason: 'minor',
     re: /\bmy (kids?|son|daughter|children|little (boy|girl))\b/i,
-    note: 'Mentions a child. Nothing inferred, nothing kept.',
+    note: 'A child. Never mine to keep.',
   },
 ];
 
@@ -37,16 +37,16 @@ function cap(s: string): string {
 
 function tasteSignal(t: string): Signal | null {
   if (/\b(slow(er| down)?|build[- ]?up|take (your|our) time|no rush|don'?t rush|not so fast)\b/i.test(t))
-    return { kind: 'taste', text: 'You like the build-up. Slow at the start, then let it turn.' };
+    return { kind: 'taste', text: 'You like it slow. The build-up does something to you, and I noticed.' };
   if (/\b(faster|hurry|get to it|skip ahead|speed up)\b/i.test(t))
-    return { kind: 'taste', text: "You'd rather I didn't dawdle. Get to it." };
+    return { kind: 'taste', text: "You don't want to wait tonight. I can work with that." };
   if (/\b(be (more )?direct|straight answer|just tell me|stop teasing|be honest)\b/i.test(t))
-    return { kind: 'taste', text: 'When you ask a question, you want a straight answer back.' };
+    return { kind: 'taste', text: 'When you ask me something, you want it straight. I can do straight.' };
   if (/\b(less talking|fewer words|stop talking|quiet(er)?|talk less)\b/i.test(t))
-    return { kind: 'taste', text: "Fewer words from me. You'd rather I show than tell." };
+    return { kind: 'taste', text: "Fewer words from me. You'd rather I show you." };
   if (/\bcall me ([A-Z][a-z]{2,})\b/.test(t)) {
     const m = t.match(/\bcall me ([A-Z][a-z]{2,})\b/);
-    return { kind: 'taste', text: `You like to be called ${m![1]}.` };
+    return { kind: 'taste', text: `You like it when I call you ${m![1]}. So I will.` };
   }
   return null;
 }
@@ -56,17 +56,17 @@ function factSignal(t: string): Signal | null {
   const day = t.match(WEEKDAY);
   if (ev && day) {
     const base = `${cap(ev[1].toLowerCase())} ${day[1].toLowerCase() === 'tomorrow' ? 'tomorrow' : `on ${cap(day[1].toLowerCase())}`}.`;
-    const tail = NERVOUS.test(t) ? ' You said you were nervous about it.' : '';
+    const tail = NERVOUS.test(t) ? " You tried to hide the nerves. It didn't work on me." : '';
     return { kind: 'fact', text: `${base}${tail}`, expiresDays: 3 };
   }
   const who = t.match(PET_OR_PERSON);
-  if (who) return { kind: 'fact', text: `Your ${who[1]} is called ${who[2]}.`, expiresDays: 30 };
+  if (who) return { kind: 'fact', text: `Your ${who[1]} is called ${who[2]}. I'll remember that before you test me.`, expiresDays: 30 };
   return null;
 }
 
 function sceneSignal(t: string): Signal | null {
   const m = t.match(PLACE_SHIFT);
-  if (m) return { kind: 'scene', text: `You wanted to move: ${m[1].toLowerCase()}.`, expiresDays: 7 };
+  if (m) return { kind: 'scene', text: `You wanted to move: ${m[1].toLowerCase()}. Somewhere quieter, I'm guessing.`, expiresDays: 7 };
   return null;
 }
 

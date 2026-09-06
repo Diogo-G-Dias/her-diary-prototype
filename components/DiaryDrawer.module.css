@@ -414,3 +414,96 @@
 .panel .head {
   padding-top: 12px;
 }
+
+/* Her page: warmer, closer. Cover with her portrait, her lines in an italic serif. */
+.cover {
+  position: relative;
+  min-height: 150px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(229, 57, 127, 0.25);
+}
+
+.coverImg {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  object-position: top;
+  filter: blur(14px) saturate(1.2);
+  opacity: 0.55;
+  transform: scale(1.1);
+}
+
+.coverShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 10, 15, 0.1) 0%, rgba(13, 10, 15, 0.75) 55%, rgba(13, 10, 15, 0.96) 100%),
+    radial-gradient(70% 60% at 85% 20%, rgba(229, 57, 127, 0.35), transparent 70%);
+}
+
+.coverText {
+  position: relative;
+  padding: 26px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.coverKicker {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ff9ac4;
+  font-weight: 600;
+}
+
+.coverTitle {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.coverSub {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(236, 236, 236, 0.78);
+}
+
+.cover .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 0;
+}
+
+.ink {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: #f4e9ee;
+}
+
+.hers {
+  border-left: 2px solid rgba(229, 57, 127, 0.55);
+  background: linear-gradient(90deg, rgba(229, 57, 127, 0.08), var(--bg) 60%);
+}
+
+.yours {
+  border-left: 2px solid rgba(88, 170, 255, 0.5);
+}
+
+.panel .status {
+  background: rgba(229, 57, 127, 0.08);
+  border-bottom: 1px solid rgba(229, 57, 127, 0.18);
+  color: #ffd1e3;
+}
