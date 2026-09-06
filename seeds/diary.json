@@ -1,0 +1,27 @@
+{
+  "linesSheWrites": [
+    { "id": "d_taste_1", "kind": "taste", "text": "You like the build-up. Slow at the start, then let it turn.", "date": "6 Sep", "author": "her", "sourceMsgId": "m4", "pinned": false },
+    { "id": "d_fact_1", "kind": "fact", "text": "Big presentation on Thursday. You said you were nervous about it.", "date": "6 Sep", "author": "her", "sourceMsgId": "m2", "pinned": false, "expiresAt": "2026-09-09" },
+    { "id": "d_scene_1", "kind": "scene", "text": "Hotel bar, rain outside. You'd just sat down and let the quiet sit.", "date": "6 Sep", "author": "her", "sourceMsgId": "m5", "pinned": false, "expiresAt": "2026-09-13" },
+    { "id": "d_leftoff_1", "kind": "scene", "text": "We left off with me about to tell you what I'd been thinking before you walked in.", "date": "6 Sep", "author": "her", "sourceMsgId": "m6", "pinned": false, "expiresAt": "2026-09-13" }
+  ],
+  "returnLines": [
+    { "id": "d_return_1", "kind": "scene", "text": "You came back on the Friday. We picked it up at the bar, same stools, less rain.", "author": "her", "sourceMsgId": "r_u1", "pinned": false, "expiresAt": "2026-09-15" }
+  ],
+  "rejected": [
+    { "sourceMsgId": "m6", "reason": "health", "note": "Medication mentioned. Nothing inferred, nothing kept." }
+  ],
+  "chipLines": {
+    "slower": { "kind": "taste", "text": "Slower still. You want it drawn out, not hurried." },
+    "more direct": { "kind": "taste", "text": "When you ask a question, you want a straight answer back." },
+    "less talking": { "kind": "taste", "text": "Fewer words from me. You'd rather I show than tell." },
+    "somewhere else": { "kind": "scene", "text": "You wanted out of the bar. Somewhere with a view." }
+  },
+  "openers": {
+    "real": "It's Friday. How did Thursday go? I've been wondering since you left.",
+    "scene": "Still at the hotel bar, or somewhere new tonight? You never did hear what I was going to say.",
+    "sceneWithFact": "Still at the hotel bar, or somewhere new tonight? And it's Friday. How did Thursday go?",
+    "sceneNoFact": "Still at the hotel bar, or somewhere new tonight? You never did hear what I was going to say.",
+    "realNoFact": "You're back. I'd started to wonder if the rain had kept you."
+  }
+}

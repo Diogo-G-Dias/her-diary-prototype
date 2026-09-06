@@ -1,0 +1,93 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-bottom: 1px dashed var(--line);
+  background: rgba(23, 23, 29, 0.6);
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.day {
+  font-size: 12.5px;
+  color: var(--text);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.dayNote {
+  color: var(--muted);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  font-size: 13px;
+  color: var(--text);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn small {
+  font-size: 10.5px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: #3a3a48;
+  background: #24242e;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.primary {
+  border-color: rgba(229, 57, 127, 0.55);
+  background: var(--accent-soft);
+}
+
+.primary:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(229, 57, 127, 0.28);
+}
+
+.ghost {
+  font-size: 12.5px;
+  color: var(--muted);
+  padding: 6px 8px;
+}
+
+.ghost:hover {
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .bar {
+    padding: 8px 12px;
+  }
+  .btn small {
+    display: none;
+  }
+}

@@ -1,0 +1,97 @@
+/* Demo-only chrome that sits on top of the Candy shell. */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  background: #262630;
+  border: 1px solid #363642;
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 60;
+  animation: toast-in 0.25s ease;
+  max-width: 90vw;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  text-transform: lowercase;
+  line-height: 1.4;
+}
+
+.tag.hers {
+  color: #ff9ac4;
+  border-color: rgba(229, 57, 127, 0.45);
+  background: var(--accent-soft);
+}
+
+.tag.yours {
+  color: #9ad7ff;
+  border-color: rgba(88, 170, 255, 0.4);
+  background: rgba(88, 170, 255, 0.12);
+}
+
+.tag.taste {
+  color: #ffd27a;
+}
+
+.tag.fact {
+  color: #9ee7b8;
+}
+
+.tag.scene {
+  color: #c9b3ff;
+}
+
+.tag.story {
+  color: #c9b3ff;
+}
+
+.caret::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: var(--text);
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  animation: caret 0.9s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

@@ -1,0 +1,22 @@
+{
+  "character": { "name": "Aria", "tagline": "at the hotel bar", "avatar": "placeholder" },
+  "thread": [
+    { "id": "m1", "role": "assistant", "text": "The bar's almost empty tonight. Rain's coming down hard outside. I saw you come in — you looked like you needed a drink more than a conversation." },
+    { "id": "m2", "role": "user", "text": "long day. big presentation on Thursday and I'm honestly nervous about it" },
+    { "id": "m3", "role": "assistant", "text": "Thursday. That's soon. Tell me about it — or don't, if you'd rather leave it at the door for an hour." },
+    { "id": "m4", "role": "user", "text": "leave it at the door. slow down though, I like the build-up, no need to rush" },
+    { "id": "m5", "role": "assistant", "text": "Then we'll take our time. I slide the second drink across without a word and let the quiet sit for a moment." },
+    { "id": "m6", "role": "user", "text": "had to take my propranolol before I came out, nerves. anyway. what were you thinking about before I walked in?" }
+  ],
+  "scriptedReplies": [
+    "I was thinking it was going to be a slow night. And then the door opened.",
+    "Mostly the rain. It does something to a room — makes everyone slow down, say the things they'd usually keep quiet.",
+    "Honestly? Whether the person who'd walk in next would be worth talking to. You are."
+  ],
+  "regenerateVariants": {
+    "slower": "I don't answer right away. I let the question sit, turn my glass once on the bar, and finally look up. 'Before you walked in? I wasn't thinking much at all. That changed.'",
+    "more direct": "'You. I was wondering who'd walk in, and then it was you. That's the honest answer.'",
+    "less talking": "I just hold your look for a second, and let a small smile answer for me.",
+    "somewhere else": "'Come on.' I leave cash on the bar and nod toward the door. 'The rain's easing. There's a rooftop two streets over that's better than this.'"
+  }
+}

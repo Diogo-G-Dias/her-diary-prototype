@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.vercel/
+*.log
+.DS_Store
+next-env.d.ts
+*.tsbuildinfo
+
+# Raw capture of the Candy conversation page: never commit it
+shell/raw/
