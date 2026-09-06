@@ -9,3 +9,5 @@ next-env.d.ts
 
 # Raw capture of the Candy conversation page: never commit it
 shell/raw/
+
+.vercel

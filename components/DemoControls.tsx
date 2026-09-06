@@ -17,7 +17,6 @@ export default function DemoControls() {
         {weekday(dayOffset)} {today}
         {dayOffset > 0 && <span className={styles.dayNote}> · {dayOffset} days later</span>}
       </span>
-      <span className={styles.spacer} />
       <button type="button" className={`${styles.btn} ${styles.primary}`} onClick={() => void endConversation()} disabled={!canEnd}>
         End conversation
         <small>{endedCount === 0 ? 'stands in for the inactivity trigger' : 'again: she writes only what is new'}</small>

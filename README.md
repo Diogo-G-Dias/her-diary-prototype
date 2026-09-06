@@ -4,7 +4,7 @@ A fully scripted demo of **Her Diary**, the memory feature proposed in my Senior
 It proves the smallest slice of the one-pager: **she turns a conversation into a page you can read and edit,
 and that page is what she opens the next chat from.**
 
-- Live demo: DEPLOY_URL
+- Live demo: https://her-diary-prototype.vercel.app
 - Case doc (two pages): [Retention through the companion experience](https://docs.google.com/document/d/1G9b514-8ZQip1RkWp7yfY7DwpvchnIUiPxm2Jb0Cv1E/edit?usp=sharing)
 - Production prompts the real version would send: [`docs/prompts.md`](docs/prompts.md)
 

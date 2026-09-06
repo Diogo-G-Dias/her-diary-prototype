@@ -5,7 +5,7 @@ import { useDemo } from '@/lib/DemoContext';
 import Typewriter from './Typewriter';
 
 export default function Thread() {
-  const { thread, assistantTyping, regenerate, chipsVisible, sessionKind } = useDemo();
+  const { thread, assistantTyping, regenerate, chipsVisible, sessionKind, wasReset } = useDemo();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Thread() {
       <div className="thread-inner">
         {thread.length === 0 && !assistantTyping && (
           <p className="empty-chat">
-            {sessionKind === 'return' ? 'Silence. She waits for you to speak first.' : 'Chat reset. Say something.'}
+            {sessionKind === 'return' && !wasReset ? 'Silence. She waits for you to speak first.' : 'Chat reset. Her diary is untouched. Say something.'}
           </p>
         )}
         {thread.map((m) => (

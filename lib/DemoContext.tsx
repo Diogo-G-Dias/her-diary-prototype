@@ -36,6 +36,7 @@ type DemoState = {
   toast: string | null;
   regenerates: number;
   endedCount: number;
+  wasReset: boolean;
 };
 
 type DemoActions = {
@@ -77,6 +78,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const [toast, setToast] = useState<string | null>(null);
   const [regenerates, setRegenerates] = useState(0);
   const [endedCount, setEndedCount] = useState(0);
+  const [wasReset, setWasReset] = useState(false);
   const scriptedIndex = useRef(0);
   const returnUserCount = useRef(0);
   const busy = useRef(false);
@@ -230,6 +232,8 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     busy.current = true;
     setChipsVisible(false);
     setConsolidation('idle');
+    setDrawerOpen(false); // the three panels need the full width
+    setWasReset(false);
     setThread([]);
     setMode('return');
     setSessionKind('return');
@@ -244,6 +248,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const pickPanel = useCallback(
     (kind: PanelKind) => {
       setMode('chat');
+      setWasReset(false);
       if (kind === 'silence') {
         setThread([]);
         return;
@@ -258,6 +263,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     setChipsVisible(false);
     setThread([]);
     setMode('chat');
+    setWasReset(true);
     setConsolidation('idle');
     showToast('Chat reset. Her diary is untouched.');
   }, [showToast]);
@@ -303,6 +309,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       toast,
       regenerates,
       endedCount,
+      wasReset,
       sendMessage,
       regenerate,
       pickChip,
@@ -336,6 +343,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       toast,
       regenerates,
       endedCount,
+      wasReset,
       sendMessage,
       regenerate,
       pickChip,
