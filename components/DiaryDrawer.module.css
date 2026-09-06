@@ -683,3 +683,29 @@
 .row:focus-within .rowMeta {
   display: none;
 }
+
+/* Actions always visible; the date lives in the tooltip. */
+.rowActions {
+  display: inline-flex;
+  flex: none;
+}
+
+.row:hover .rowActions,
+.row:focus-within .rowActions {
+  display: inline-flex;
+}
+
+.row:hover .rowMeta,
+.row:focus-within .rowMeta {
+  display: inline;
+}
+
+.row {
+  flex-wrap: nowrap;
+}
+
+.rowActions button {
+  white-space: nowrap;
+  font-size: 12px;
+  padding: 2px 8px;
+}

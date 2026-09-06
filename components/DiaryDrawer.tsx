@@ -277,7 +277,6 @@ ${line.text}`;
       <p className={`${styles.rowText} ${hers ? styles.ink : ''}`}>
         {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
       </p>
-      <span className={styles.rowMeta}>{line.date}</span>
       {state === 'static' && (
         <span className={styles.rowActions}>
           <button type="button" onClick={() => setEditing(true)} title="Rewrite it: it becomes yours and I never touch it again">
