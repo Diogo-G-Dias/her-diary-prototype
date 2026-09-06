@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react';
 import { useDemo } from '@/lib/DemoContext';
 import Typewriter from './Typewriter';
+import Avatar from './Avatar';
+import { CHARACTER } from '@/lib/fakeModel';
 
 export default function Thread() {
   const { thread, assistantTyping, regenerate, chipsVisible, sessionKind, wasReset } = useDemo();
@@ -26,7 +28,7 @@ export default function Thread() {
         )}
         {thread.map((m) => (
           <div key={m.id} className={`msg ${m.role}`}>
-            {m.role === 'assistant' && <span className="avatar sm" aria-hidden />}
+            {m.role === 'assistant' && <Avatar src={CHARACTER.avatar} small />}
             <div className={`bubble ${m.replaced ? 'replaced' : ''}`}>
               {m.typed ? <Typewriter text={m.text} msPerChar={15} /> : m.text}
             </div>
@@ -34,7 +36,7 @@ export default function Thread() {
         ))}
         {assistantTyping && (
           <div className="msg assistant">
-            <span className="avatar sm" aria-hidden />
+            <Avatar src={CHARACTER.avatar} small />
             <div className="bubble typing" aria-label="typing">
               <i />
               <i />

@@ -160,6 +160,18 @@ a {
   height: 30px;
 }
 
+.avatar {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .avatar.hue-2 {
   background: linear-gradient(135deg, #2f9bd8, #67e0c1);
 }

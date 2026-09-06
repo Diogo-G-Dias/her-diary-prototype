@@ -2,12 +2,13 @@
 
 import { CHARACTER } from '@/lib/fakeModel';
 import { useDemo } from '@/lib/DemoContext';
+import Avatar from './Avatar';
 
 const OTHERS = [
-  { name: 'Nova', preview: 'Same time tomorrow?', hue: 'hue-2' },
-  { name: 'Elena', preview: 'I kept the table by the window.', hue: 'hue-3' },
-  { name: 'Mia', preview: 'You never told me how it ended.', hue: 'hue-4' },
-  { name: 'June', preview: 'Rain again. Thinking of you.', hue: '' },
+  { name: 'Nova', preview: 'Same time tomorrow?', hue: 'hue-2', src: '/avatars/nova.jpg' },
+  { name: 'Elena', preview: 'I kept the table by the window.', hue: 'hue-3', src: '/avatars/elena.jpg' },
+  { name: 'Mia', preview: 'You never told me how it ended.', hue: 'hue-4', src: '/avatars/mia.jpg' },
+  { name: 'June', preview: 'Rain again. Thinking of you.', hue: '', src: '/avatars/june.jpg' },
 ];
 
 export function Sidebar() {
@@ -22,7 +23,7 @@ export function Sidebar() {
       <div className="search">Search</div>
       <nav className="charlist">
         <button className="charrow active" type="button">
-          <span className="avatar" />
+          <Avatar src={CHARACTER.avatar} />
           <span>
             <span className="name">{CHARACTER.name}</span>
             <br />
@@ -31,7 +32,7 @@ export function Sidebar() {
         </button>
         {OTHERS.map((c) => (
           <button className="charrow" type="button" key={c.name} disabled aria-disabled>
-            <span className={`avatar ${c.hue}`} />
+            <Avatar src={c.src} hue={c.hue} />
             <span>
               <span className="name">{c.name}</span>
               <br />
@@ -55,7 +56,7 @@ export function Header() {
   const live = diary.lines.filter((l) => !l.deletedAt && l.status === 'committed').length;
   return (
     <header className="header">
-      <span className="avatar sm" />
+      <Avatar src={CHARACTER.avatar} small />
       <div className="who">
         <span className="name">{CHARACTER.name}</span>
         <span className="status">online</span>

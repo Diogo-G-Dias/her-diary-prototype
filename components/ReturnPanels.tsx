@@ -1,7 +1,8 @@
 'use client';
 
 import { useDemo } from '@/lib/DemoContext';
-import { GENERIC_OPENER } from '@/lib/fakeModel';
+import { CHARACTER, GENERIC_OPENER } from '@/lib/fakeModel';
+import Avatar from './Avatar';
 import Typewriter from './Typewriter';
 import styles from './ReturnPanels.module.css';
 
@@ -68,7 +69,7 @@ function Panel({
 function Bubble({ children }: { children: React.ReactNode }) {
   return (
     <div className="msg assistant" style={{ maxWidth: '100%' }}>
-      <span className="avatar sm" aria-hidden />
+      <Avatar src={CHARACTER.avatar} small />
       <div className="bubble" style={{ textAlign: 'left' }}>
         {children}
       </div>

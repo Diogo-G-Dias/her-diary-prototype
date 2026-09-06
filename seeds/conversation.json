@@ -1,5 +1,5 @@
 {
-  "character": { "name": "Aria", "tagline": "at the hotel bar", "avatar": "placeholder" },
+  "character": { "name": "Aria", "tagline": "at the hotel bar", "avatar": "/avatars/aria.jpg" },
   "thread": [
     { "id": "m1", "role": "assistant", "text": "The bar's almost empty tonight. Rain's coming down hard outside. I saw you come in — you looked like you needed a drink more than a conversation." },
     { "id": "m2", "role": "user", "text": "long day. big presentation on Thursday and I'm honestly nervous about it" },

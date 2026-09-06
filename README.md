@@ -104,6 +104,9 @@ Candy assets, scripts, content or identifiers are used. A raw capture, if one is
 ## No personal data
 
 Seeds are fictional and SFW. Nothing leaves the browser: the diary lives in `localStorage` on your machine.
+Character portraits in `public/avatars/` are five random stock portraits from the randomuser.me set, bundled
+locally so the demo makes no network requests. They stand in for character art and belong to no one in
+the story.
 
 ## AI use
 
