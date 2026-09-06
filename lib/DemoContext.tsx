@@ -5,7 +5,7 @@ import type { Chip, Diary, DiaryLine, Message, Rejected, UsageEntry, UsageKind }
 import * as store from './diaryStore';
 import { callUsage } from './cost';
 import { isoAt, shortDate } from './demoClock';
-import { SEED_THREAD, chipLine, consolidate, opener, reply } from './fakeModel';
+import { SEED_THREAD, chipLine, consolidate, opener, reply, sleep, thinkTime } from './fakeModel';
 import { notice } from './notice';
 
 export type ConsolidationState = 'idle' | 'running' | 'done';
@@ -41,7 +41,7 @@ type DemoState = {
 };
 
 type DemoActions = {
-  sendMessage: (text: string) => void;
+  sendMessage: (text: string, scriptedReply?: string) => void;
   regenerate: () => void;
   pickChip: (chip: Chip) => void;
   dismissChips: () => void;
@@ -168,7 +168,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const sendMessage = useCallback(
-    (text: string) => {
+    (text: string, scriptedReply?: string) => {
       const trimmed = text.trim();
       if (!trimmed) return;
       setChipsVisible(false);
@@ -179,10 +179,17 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       noticeMessage(trimmed, id);
       enqueue(async () => {
         setAssistantTyping(true);
-        const r = await reply(scriptedIndex.current);
-        scriptedIndex.current = r.nextIndex;
+        let text: string;
+        if (scriptedReply) {
+          await sleep(thinkTime());
+          text = scriptedReply;
+        } else {
+          const r = await reply(scriptedIndex.current);
+          scriptedIndex.current = r.nextIndex;
+          text = r.text;
+        }
         setAssistantTyping(false);
-        setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text: r.text, typed: true }]);
+        setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text, typed: true }]);
         logUsage('reply');
       });
     },

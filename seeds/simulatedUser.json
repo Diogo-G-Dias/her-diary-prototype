@@ -1,8 +1,26 @@
 [
-  "Somewhere else.",
-  "Call me Sam.",
-  "the presentation on Thursday went fine actually, I was nervous for nothing",
-  "my rent went up again so I can't stay long tonight",
-  "you remember more than I expected",
-  "okay. surprise me."
+  {
+    "user": "Somewhere else.",
+    "reply": "'Somewhere else.' I finish my drink slowly, watching you over the rim. 'The rooftop upstairs is empty this time of night. Rain and all. Come on.'"
+  },
+  {
+    "user": "Call me Sam.",
+    "reply": "'Sam.' I try it out, like I'm tasting it. 'Suits you. Alright, Sam. You lead, or do you want me to?'"
+  },
+  {
+    "user": "the presentation on Thursday went fine actually, I was nervous for nothing",
+    "reply": "'Fine.' I bump your shoulder with mine on the stairs. 'I knew it would be. You do this thing where you worry beautifully, and then you win anyway.'"
+  },
+  {
+    "user": "my rent went up again so I can't stay long tonight",
+    "reply": "'Then we don't waste a minute of it.' I don't ask about the rest. I just move a little closer under the awning."
+  },
+  {
+    "user": "you remember more than I expected",
+    "reply": "'I pay attention. There's a difference.' A pause, the rain loud on the canopy. 'Most people never notice that I do.'"
+  },
+  {
+    "user": "okay. surprise me.",
+    "reply": "I take your hand without a word and walk you to the edge, where the whole city is lit up under the rain. 'There. That's what I was going to tell you about, the night you walked in.'"
+  }
 ]
