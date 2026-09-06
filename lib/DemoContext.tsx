@@ -4,8 +4,9 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import type { Chip, Diary, DiaryLine, Message, PanelKind, Rejected, UsageEntry, UsageKind } from './types';
 import * as store from './diaryStore';
 import { callUsage } from './cost';
-import { shortDate } from './demoClock';
+import { isoAt, shortDate } from './demoClock';
 import { GENERIC_OPENER, SEED_THREAD, chipLine, consolidate, opener, reply } from './fakeModel';
+import { notice } from './notice';
 
 export type ConsolidationState = 'idle' | 'running' | 'done';
 export type Mode = 'chat' | 'return';
@@ -13,15 +14,17 @@ export type SessionKind = 'first' | 'return';
 
 export type LastRun = {
   writtenIds: string[];
-  rejected: Rejected[];
-  tombstonesHonoured: number;
+  rejectedCount: number;
+  keptOut: number;
   date: string;
+  nothingNew: boolean;
 };
 
 type DemoState = {
   hydrated: boolean;
   thread: Message[];
   diary: Diary;
+  pendingRejected: Rejected[];
   drawerOpen: boolean;
   consolidation: ConsolidationState;
   lastRun: LastRun | null;
@@ -40,12 +43,12 @@ type DemoState = {
 };
 
 type DemoActions = {
-  sendMessage: (text: string) => Promise<void>;
-  regenerate: () => Promise<void>;
-  pickChip: (chip: Chip) => Promise<void>;
+  sendMessage: (text: string) => void;
+  regenerate: () => void;
+  pickChip: (chip: Chip) => void;
   dismissChips: () => void;
-  endConversation: () => Promise<void>;
-  comeBack: () => Promise<void>;
+  endConversation: () => void;
+  comeBack: () => void;
   pickPanel: (kind: PanelKind) => void;
   resetChat: () => void;
   restartDemo: () => void;
@@ -65,6 +68,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   const [thread, setThread] = useState<Message[]>(SEED_THREAD);
   const [diary, setDiary] = useState<Diary>(store.emptyDiary());
+  const [pendingRejected, setPendingRejected] = useState<Rejected[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [consolidation, setConsolidation] = useState<ConsolidationState>('idle');
   const [lastRun, setLastRun] = useState<LastRun | null>(null);
@@ -79,50 +83,26 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const [regenerates, setRegenerates] = useState(0);
   const [endedCount, setEndedCount] = useState(0);
   const [wasReset, setWasReset] = useState(false);
+
   const scriptedIndex = useRef(0);
-  const returnUserCount = useRef(0);
-  const busy = useRef(false);
+  const userCount = useRef(0);
+  const returnFirstUserId = useRef<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Every model-shaped action runs through one queue, so nothing is ever dropped while she is typing.
+  const chain = useRef<Promise<void>>(Promise.resolve());
+  const threadRef = useRef(thread);
+  const diaryRef = useRef(diary);
+  const rejectedRef = useRef(pendingRejected);
+  threadRef.current = thread;
+  diaryRef.current = diary;
+  rejectedRef.current = pendingRejected;
 
   const today = shortDate(dayOffset);
 
-  useEffect(() => {
-    const loaded = store.load();
-    if (loaded) setDiary(loaded);
-    setHydrated(true);
+  const enqueue = useCallback((fn: () => Promise<void>) => {
+    const run = chain.current.then(fn, fn);
+    chain.current = run.catch(() => undefined);
   }, []);
-
-  useEffect(() => {
-    if (hydrated) store.save(diary);
-  }, [diary, hydrated]);
-
-  // The seeded thread ends on the user's question. She answers it on load, so Regenerate has a reply to act on.
-  const answeredSeed = useRef(false);
-  useEffect(() => {
-    if (!hydrated || answeredSeed.current) return;
-    answeredSeed.current = true;
-    const last = thread[thread.length - 1];
-    if (!last || last.role !== 'user') return;
-    busy.current = true;
-    let cancelled = false;
-    (async () => {
-      await new Promise((r) => setTimeout(r, 900));
-      if (cancelled) return;
-      setAssistantTyping(true);
-      const r = await reply(scriptedIndex.current);
-      if (cancelled) return;
-      scriptedIndex.current = r.nextIndex;
-      setAssistantTyping(false);
-      setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text: r.text, typed: true }]);
-      logUsage('reply');
-      busy.current = false;
-    })();
-    return () => {
-      cancelled = true;
-      busy.current = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hydrated]);
 
   const showToast = useCallback((text: string) => {
     setToast(text);
@@ -134,6 +114,47 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     const u = callUsage(kind);
     setUsageLog((log) => [...log, { id: nextId('use'), kind, ...u, at: Date.now() }]);
   }, []);
+
+  // The free noticer: after a user message, maybe one pending line and maybe one flagged candidate.
+  const noticeMessage = useCallback((text: string, msgId: string) => {
+    const n = notice(text, msgId, shortDate(dayOffset), isoAt(dayOffset));
+    const threadIds = new Set(threadRef.current.map((m) => m.id).concat([msgId]));
+    if (n.candidate) setDiary((d) => store.addLines(d, [n.candidate as DiaryLine], threadIds));
+    if (n.rejected) {
+      const r = n.rejected;
+      setPendingRejected((list) => (list.some((x) => x.id === r.id) ? list : [...list, r]));
+    }
+  }, [dayOffset]);
+
+  useEffect(() => {
+    const loaded = store.load();
+    if (loaded) setDiary(loaded);
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) store.save(diary);
+  }, [diary, hydrated]);
+
+  // On load: she has been "noticing" the seeded conversation, and she answers its last question.
+  useEffect(() => {
+    if (!hydrated) return;
+    SEED_THREAD.filter((m) => m.role === 'user').forEach((m) => noticeMessage(m.text, m.id));
+    const last = SEED_THREAD[SEED_THREAD.length - 1];
+    if (!last || last.role !== 'user') return;
+    const t = setTimeout(() => {
+      enqueue(async () => {
+        setAssistantTyping(true);
+        const r = await reply(scriptedIndex.current);
+        scriptedIndex.current = r.nextIndex;
+        setAssistantTyping(false);
+        setThread((th) => [...th, { id: nextId('a'), role: 'assistant', text: r.text, typed: true }]);
+        logUsage('reply');
+      });
+    }, 900);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated]);
 
   const swapLastReply = useCallback(async (text: string) => {
     // Old and new reply shown stacked for about 2 s, then the old one collapses.
@@ -150,100 +171,116 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const sendMessage = useCallback(
-    async (text: string) => {
+    (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed || busy.current) return;
-      busy.current = true;
+      if (!trimmed) return;
       setChipsVisible(false);
-      const id =
-        sessionKind === 'return' ? `r_u${++returnUserCount.current}` : nextId('u');
+      const id = `u_${++userCount.current}`;
+      if (sessionKind === 'return' && !returnFirstUserId.current) returnFirstUserId.current = id;
+      // The bubble renders at once; her reply queues behind whatever she is doing.
       setThread((t) => [...t.map((m) => ({ ...m, typed: false })), { id, role: 'user', text: trimmed }]);
-      setAssistantTyping(true);
-      const r = await reply(scriptedIndex.current);
-      scriptedIndex.current = r.nextIndex;
-      setAssistantTyping(false);
-      setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text: r.text, typed: true }]);
-      logUsage('reply');
-      busy.current = false;
+      noticeMessage(trimmed, id);
+      enqueue(async () => {
+        setAssistantTyping(true);
+        const r = await reply(scriptedIndex.current);
+        scriptedIndex.current = r.nextIndex;
+        setAssistantTyping(false);
+        setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text: r.text, typed: true }]);
+        logUsage('reply');
+      });
     },
-    [logUsage, sessionKind],
+    [enqueue, logUsage, noticeMessage, sessionKind],
   );
 
-  const regenerate = useCallback(async () => {
-    if (busy.current) return;
-    busy.current = true;
+  const regenerate = useCallback(() => {
     setChipsVisible(false);
     setRegenerates((n) => n + 1);
-    setAssistantTyping(true);
-    const r = await reply(scriptedIndex.current); // a blind reroll, as today
-    scriptedIndex.current = r.nextIndex;
-    setAssistantTyping(false);
-    logUsage('reply');
-    setChipsVisible(true); // then she asks why
-    await swapLastReply(r.text);
-    busy.current = false;
-  }, [logUsage, swapLastReply]);
+    enqueue(async () => {
+      setAssistantTyping(true);
+      const r = await reply(scriptedIndex.current); // a blind reroll, as today
+      scriptedIndex.current = r.nextIndex;
+      setAssistantTyping(false);
+      logUsage('reply');
+      setChipsVisible(true); // then she asks why
+      await swapLastReply(r.text);
+    });
+  }, [enqueue, logUsage, swapLastReply]);
 
   const pickChip = useCallback(
-    async (chip: Chip) => {
-      if (busy.current) return;
-      busy.current = true;
+    (chip: Chip) => {
       setChipsVisible(false);
-      // The steer tap writes a diary line immediately: no model delay.
-      const lastUser = [...thread].reverse().find((m) => m.role === 'user');
+      // An explicit correction writes a committed line at once: no boundary, no model call.
+      const th = threadRef.current;
+      const lastUser = [...th].reverse().find((m) => m.role === 'user');
       const line = chipLine(chip, today, lastUser?.id ?? 'steer');
-      setDiary((d) => store.addLines(d, [line], new Set(thread.map((m) => m.id).concat(['steer']))));
+      setDiary((d) => store.addLines(d, [line], new Set(th.map((m) => m.id).concat(['steer']))));
+      setDrawerOpen(true);
+      setConsolidation('idle'); // the header goes back to live counts
       showToast(`Noted in her diary: "${chip}"`);
-      const r = await reply(scriptedIndex.current, chip);
-      await swapLastReply(r.text);
-      busy.current = false;
+      enqueue(async () => {
+        const r = await reply(scriptedIndex.current, chip);
+        logUsage('reply');
+        await swapLastReply(r.text);
+      });
     },
-    [showToast, swapLastReply, thread, today],
+    [enqueue, logUsage, showToast, swapLastReply, today],
   );
 
   const dismissChips = useCallback(() => setChipsVisible(false), []);
 
-  const endConversation = useCallback(async () => {
-    if (busy.current) return;
-    busy.current = true;
+  const endConversation = useCallback(() => {
     setChipsVisible(false);
     setDrawerOpen(true);
-    setConsolidation('running');
-    setLastRun(null);
-    const page = store.liveLines(diary);
-    const dead = store.tombstones(diary);
-    const res = await consolidate(thread, page, dead, today);
-    const threadIds = new Set(thread.map((m) => m.id));
-    setDiary((d) => store.addLines(d, res.written, threadIds));
-    logUsage('consolidate');
-    setLastRun({
-      writtenIds: res.written.map((l) => l.id),
-      rejected: res.rejected,
-      tombstonesHonoured: res.tombstonesHonoured,
-      date: today,
+    enqueue(async () => {
+      setConsolidation('running');
+      setLastRun(null);
+      const aliases: Record<string, string> = {};
+      if (returnFirstUserId.current) aliases.r_u1 = returnFirstUserId.current;
+      const res = await consolidate({
+        thread: threadRef.current,
+        diary: diaryRef.current,
+        pendingRejected: rejectedRef.current,
+        date: today,
+        aliases,
+      });
+      setDiary((d) => store.commit(d, res.converted, res.fresh, res.droppedPendingIds));
+      const rejectedIds = new Set(res.rejectedIds);
+      setPendingRejected((list) => list.map((r) => (rejectedIds.has(r.id) ? { ...r, state: 'rejecting' } : r)));
+      logUsage('consolidate');
+      const writtenIds = [...res.converted.map((l) => l.id), ...res.fresh.map((l) => l.id)];
+      setLastRun({
+        writtenIds,
+        rejectedCount: res.rejectedIds.length,
+        keptOut: res.keptOut,
+        date: today,
+        nothingNew: writtenIds.length === 0 && res.rejectedIds.length === 0,
+      });
+      setEndedCount((n) => n + 1);
+      setConsolidation('done');
+      // The struck-out candidates stay visible long enough to read, then fade out.
+      await new Promise((r) => setTimeout(r, 2400));
+      setPendingRejected((list) => list.filter((r) => !rejectedIds.has(r.id)));
     });
-    setEndedCount((n) => n + 1);
-    setConsolidation('done');
-    busy.current = false;
-  }, [diary, logUsage, thread, today]);
+  }, [enqueue, logUsage, today]);
 
-  const comeBack = useCallback(async () => {
-    if (busy.current) return;
-    busy.current = true;
+  const comeBack = useCallback(() => {
     setChipsVisible(false);
     setConsolidation('idle');
     setDrawerOpen(false); // the three panels need the full width
     setWasReset(false);
     setThread([]);
+    setDiary((d) => store.clearPending(d)); // noticed but never committed: the conversation is over
+    setPendingRejected([]);
     setMode('return');
     setSessionKind('return');
     setDayOffset(2);
     setOpenerText(null);
-    const o = await opener(store.liveLines(diary), 2);
-    logUsage('opener');
-    setOpenerText(o.text);
-    busy.current = false;
-  }, [diary, logUsage]);
+    enqueue(async () => {
+      const o = await opener(diaryRef.current, 2);
+      logUsage('opener');
+      setOpenerText(o.text);
+    });
+  }, [enqueue, logUsage]);
 
   const pickPanel = useCallback(
     (kind: PanelKind) => {
@@ -262,6 +299,8 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const resetChat = useCallback(() => {
     setChipsVisible(false);
     setThread([]);
+    setDiary((d) => store.clearPending(d));
+    setPendingRejected([]);
     setMode('chat');
     setWasReset(true);
     setConsolidation('idle');
@@ -295,6 +334,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       hydrated,
       thread,
       diary,
+      pendingRejected,
       drawerOpen,
       consolidation,
       lastRun,
@@ -329,6 +369,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       hydrated,
       thread,
       diary,
+      pendingRejected,
       drawerOpen,
       consolidation,
       lastRun,
@@ -369,5 +410,3 @@ export function useDemo() {
   if (!v) throw new Error('useDemo outside DemoProvider');
   return v;
 }
-
-export type { DiaryLine };

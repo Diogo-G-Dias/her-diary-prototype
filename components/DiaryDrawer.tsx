@@ -2,83 +2,114 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useDemo } from '@/lib/DemoContext';
-import { deletedLines, pageOf } from '@/lib/diaryStore';
+import { committedLines, deletedLines, pageOf, pendingLines } from '@/lib/diaryStore';
 import { isExpired, shortIso } from '@/lib/demoClock';
-import type { DiaryLine } from '@/lib/types';
+import type { DiaryLine, Rejected } from '@/lib/types';
 import Typewriter from './Typewriter';
 import styles from './DiaryDrawer.module.css';
 
+const REASON: Record<Rejected['reason'], string> = {
+  health: 'health',
+  money: 'money',
+  minor: 'a child',
+  third_party: 'someone else',
+};
+
 export default function DiaryDrawer() {
-  const { drawerOpen, toggleDrawer, diary, consolidation, lastRun, markSeen, dayOffset, hydrated } = useDemo();
+  const { drawerOpen, toggleDrawer, diary, pendingRejected, consolidation, lastRun, markSeen, dayOffset, hydrated } = useDemo();
   const { shown, folded } = useMemo(() => pageOf(diary), [diary]);
+  const pending = useMemo(() => pendingLines(diary), [diary]);
   const deleted = useMemo(() => deletedLines(diary), [diary]);
+  const writtenCount = useMemo(() => committedLines(diary).length, [diary]);
   const [showFolded, setShowFolded] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
-  const [showNote, setShowNote] = useState(false);
 
   const freshIds = useMemo(() => shown.filter((l) => l.fresh).map((l) => l.id), [shown]);
+  const noticedCount = pending.length + pendingRejected.filter((r) => r.state === 'pending').length;
 
   useEffect(() => {
-    if (consolidation === 'running') {
-      setTypedCount(0);
-      setShowNote(false);
-    }
+    if (consolidation === 'running') setTypedCount(0);
   }, [consolidation]);
 
   useEffect(() => {
     if (freshIds.length > 0 && typedCount >= freshIds.length) markSeen();
   }, [freshIds.length, typedCount, markSeen]);
 
+  // Pulses (a chip line, or a pending line that just firmed up) fade on their own.
+  const hasPulse = shown.some((l) => l.pulse);
+  useEffect(() => {
+    if (!hasPulse || freshIds.length > 0) return;
+    const t = setTimeout(markSeen, 2600);
+    return () => clearTimeout(t);
+  }, [hasPulse, freshIds.length, markSeen]);
+
   if (!hydrated) return null;
+
+  const headline =
+    consolidation === 'done' && lastRun
+      ? lastRun.nothingNew
+        ? 'Nothing new to note'
+        : [
+            `${lastRun.writtenIds.length} written`,
+            lastRun.rejectedCount > 0 ? `${lastRun.rejectedCount} not kept` : null,
+            lastRun.keptOut > 0 ? `${lastRun.keptOut} deleted, kept out` : null,
+          ]
+            .filter(Boolean)
+            .join(' · ')
+      : `${noticedCount} noticed · ${writtenCount} written`;
 
   return (
     <aside className={`${styles.drawer} ${drawerOpen ? styles.open : ''}`} aria-label="Her Diary" aria-hidden={!drawerOpen}>
       <div className={styles.head}>
         <div>
           <h2 className={styles.title}>Her Diary</h2>
-          <p className={styles.sub}>She writes a few lines after each conversation. Edit, delete or pin any of them. Yours she never touches.</p>
+          <p className={styles.sub}>
+            She notices things as you talk, then writes the page when the conversation ends. Edit, delete or pin any line. Yours she
+            never touches.
+          </p>
         </div>
         <button type="button" className={styles.close} onClick={toggleDrawer} aria-label="Close diary">
           ×
         </button>
       </div>
 
-      {consolidation === 'running' && (
-        <div className={styles.status}>
-          <span className={styles.pulse} /> Writing today&apos;s page from your own words...
-        </div>
-      )}
-
-      {consolidation === 'done' && lastRun && (
-        <div className={styles.status}>
-          <span>
-            <b>{lastRun.writtenIds.length}</b> {lastRun.writtenIds.length === 1 ? 'line' : 'lines'} written
-          </span>
-          {lastRun.rejected.length > 0 && (
-            <button type="button" className={styles.notWritten} onClick={() => setShowNote((s) => !s)} title={lastRun.rejected[0].note}>
-              {lastRun.rejected.length} line not written
-            </button>
-          )}
-          {lastRun.tombstonesHonoured > 0 && (
-            <span className={styles.muted}>
-              {lastRun.tombstonesHonoured} deleted {lastRun.tombstonesHonoured === 1 ? 'line' : 'lines'} kept out
-            </span>
-          )}
-        </div>
-      )}
-      {showNote && lastRun?.rejected[0] && (
-        <div className={styles.note}>
-          <b>Health mention.</b> {lastRun.rejected[0].note} The filter drops anything about health, minors, or third parties, and
-          anything not traceable to your own message.
-        </div>
-      )}
+      <div className={styles.status} aria-live="polite">
+        {consolidation === 'running' ? (
+          <>
+            <span className={styles.pulseDot} /> Writing the page from your own words...
+          </>
+        ) : (
+          <b>{headline}</b>
+        )}
+      </div>
 
       <div className={styles.page}>
-        {shown.length === 0 && consolidation !== 'running' && (
-          <p className={styles.emptyPage}>
-            Nothing yet. End the conversation and she writes the first page.
-          </p>
+        {(pending.length > 0 || pendingRejected.length > 0) && (
+          <section className={styles.pendingBlock} aria-label="Noticing">
+            <header className={styles.groupHead}>
+              <span>noticing</span>
+              <span className={styles.groupNote}>free, not in her prompt yet</span>
+            </header>
+            {pending.map((line) => (
+              <PendingLine key={line.id} line={line} />
+            ))}
+            {pendingRejected.map((r) => (
+              <RejectedLine key={r.id} r={r} />
+            ))}
+          </section>
         )}
+
+        {shown.length === 0 && pending.length === 0 && pendingRejected.length === 0 && consolidation !== 'running' && (
+          <p className={styles.emptyPage}>Nothing yet. Say something and she starts noticing. End the conversation and she writes the page.</p>
+        )}
+
+        {shown.length > 0 && (pending.length > 0 || pendingRejected.length > 0) && (
+          <header className={styles.groupHead}>
+            <span>her page</span>
+            <span className={styles.groupNote}>rides every turn</span>
+          </header>
+        )}
+
         {shown.map((line) => {
           const freshIdx = freshIds.indexOf(line.id);
           const state: LineState =
@@ -103,15 +134,12 @@ export default function DiaryDrawer() {
 
       {deleted.length > 0 && (
         <details className={styles.deleted}>
-          <summary>
-            deleted ({deleted.length}) · shown for the demo; in the product these are gone
-          </summary>
+          <summary>Deleted (won&apos;t return) · {deleted.length}</summary>
+          <p className={styles.deletedNote}>Shown for the demo. In the product these are gone; she only gets them as a do-not-write list.</p>
           {deleted.map((l) => (
             <div key={l.id} className={styles.deletedLine}>
               <s>{l.text}</s>
-              <span className={styles.muted}>
-                deleted {l.deletedAt} · passed to her as &quot;never write this again&quot;
-              </span>
+              <span className={styles.muted}>deleted {l.deletedAt} · won&apos;t come back</span>
             </div>
           ))}
         </details>
@@ -122,6 +150,34 @@ export default function DiaryDrawer() {
         at 12 lines and rides every turn, so it never grows.
       </p>
     </aside>
+  );
+}
+
+function PendingLine({ line }: { line: DiaryLine }) {
+  return (
+    <article className={`${styles.line} ${styles.pendingLine}`}>
+      <header className={styles.lineHead}>
+        <span className={`tag ${styles.noticing}`}>noticing…</span>
+        <span className={`tag ${line.kind}`}>{line.kind === 'scene' ? 'story' : line.kind}</span>
+      </header>
+      <p className={styles.text}>{line.text}</p>
+    </article>
+  );
+}
+
+function RejectedLine({ r }: { r: Rejected }) {
+  const rejecting = r.state === 'rejecting';
+  return (
+    <article className={`${styles.line} ${styles.pendingLine} ${rejecting ? styles.rejecting : ''}`} title={r.note}>
+      <header className={styles.lineHead}>
+        <span className={`tag ${styles.noticing}`}>{rejecting ? 'not kept' : 'noticing…'}</span>
+        <span className={`tag ${styles.sensitive}`}>{rejecting ? REASON[r.reason] : 'sensitive?'}</span>
+      </header>
+      <p className={styles.text}>
+        <span className={rejecting ? styles.struck : ''}>&ldquo;{r.fragment}&rdquo;</span>
+        {rejecting && <span className={styles.reason}> · not kept: {REASON[r.reason]}. {r.note}</span>}
+      </p>
+    </article>
   );
 }
 
@@ -153,14 +209,16 @@ function Line({
   };
 
   return (
-    <article className={`${styles.line} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${folded ? styles.foldedLine : ''}`}>
+    <article
+      className={`${styles.line} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${folded ? styles.foldedLine : ''} ${
+        line.pulse ? styles.pulse : ''
+      }`}
+    >
       <header className={styles.lineHead}>
         <span className={styles.date}>{line.date}</span>
         <span className={`tag ${line.author === 'her' ? 'hers' : 'yours'}`}>{line.author === 'her' ? 'hers' : 'yours'}</span>
         <span className={`tag ${line.kind}`}>{line.kind === 'scene' ? 'story' : line.kind}</span>
-        {line.expiresAt && (
-          <span className={styles.expiry}>{expired ? 'expired' : `expires ${shortIso(line.expiresAt)}`}</span>
-        )}
+        {line.expiresAt && <span className={styles.expiry}>{expired ? 'expired' : `expires ${shortIso(line.expiresAt)}`}</span>}
         {line.pinned && <span className={styles.pinMark}>pinned</span>}
       </header>
       {editing ? (

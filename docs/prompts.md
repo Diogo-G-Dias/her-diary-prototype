@@ -24,6 +24,14 @@ written or edited by the user: never contradict them. If a line is missing or un
 Budget: about 300 tokens. The page is capped at 12 live lines (older unpinned lines are folded and not
 sent), so the block does not grow with tenure.
 
+## 0. Noticing (client-side, free, no model)
+
+While the conversation runs, the app spots a handful of signals in the user's own messages with plain pattern
+matching (pace words, a named person or pet, a dated plan, a place shift) and shows them in the drawer as
+*pending* lines. Pending lines never enter the prompt and are never sent anywhere; they exist so the user
+sees her noticing. Sensitive terms (health, money, minors) are flagged the same way and shown as candidates
+the filter will refuse. The boundary job below is the only thing that writes.
+
 ## 1. Consolidate (session-end job, one call per conversation boundary)
 
 Trigger: 30 minutes of inactivity, app background for 10 minutes, or explicit reset. Input: the turns since

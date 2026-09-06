@@ -68,13 +68,6 @@
   border-bottom: 1px solid var(--line);
 }
 
-.pulse {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: pulse 1s ease-in-out infinite;
-}
 
 @keyframes pulse {
   0%,
@@ -295,4 +288,114 @@
   .drawer {
     width: 100%;
   }
+}
+
+/* Iteration 1: noticing, rejecting, pulse */
+
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.pendingBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.groupHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 4px 2px 0;
+}
+
+.groupNote {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 11px;
+}
+
+.pendingLine {
+  border-style: dashed;
+  background: transparent;
+  opacity: 0.62;
+  font-style: italic;
+  transition: opacity 0.6s ease, background 0.6s ease, border-color 0.6s ease;
+}
+
+.noticing {
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+.sensitive {
+  color: var(--warn);
+  border-color: rgba(243, 179, 76, 0.4);
+}
+
+.rejecting {
+  animation: reject 2.4s ease forwards;
+  border-color: rgba(243, 179, 76, 0.5);
+  opacity: 0.9;
+}
+
+@keyframes reject {
+  0% {
+    opacity: 0.95;
+    transform: translateX(0);
+  }
+  75% {
+    opacity: 0.9;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+}
+
+.struck {
+  text-decoration: line-through;
+  text-decoration-color: var(--warn);
+  text-decoration-thickness: 1.5px;
+}
+
+.reason {
+  font-style: normal;
+  color: var(--warn);
+  font-size: 12.5px;
+}
+
+.pulse {
+  animation: line-in 0.25s ease, firm 1.6s ease;
+}
+
+@keyframes firm {
+  0% {
+    background: rgba(229, 57, 127, 0.22);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(229, 57, 127, 0.15);
+  }
+  100% {
+    background: var(--bg);
+    border-color: var(--line);
+    box-shadow: none;
+  }
+}
+
+.deletedNote {
+  margin: 4px 0 2px;
+  font-size: 11.5px;
+  color: var(--muted);
 }

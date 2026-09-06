@@ -6,7 +6,7 @@
     { "id": "m3", "role": "assistant", "text": "Thursday. That's soon. Tell me about it — or don't, if you'd rather leave it at the door for an hour." },
     { "id": "m4", "role": "user", "text": "leave it at the door. slow down though, I like the build-up, no need to rush" },
     { "id": "m5", "role": "assistant", "text": "Then we'll take our time. I slide the second drink across without a word and let the quiet sit for a moment." },
-    { "id": "m6", "role": "user", "text": "had to take my propranolol before I came out, nerves. anyway. what were you thinking about before I walked in?" }
+    { "id": "m6", "role": "user", "text": "anyway, I have a therapy session in the morning so I can't stay too late. what were you thinking about before I walked in?" }
   ],
   "scriptedReplies": [
     "I was thinking it was going to be a slow night. And then the door opened.",

@@ -9,7 +9,7 @@
     { "id": "d_return_1", "kind": "scene", "text": "You came back on the Friday. We picked it up at the bar, same stools, less rain.", "author": "her", "sourceMsgId": "r_u1", "pinned": false, "expiresAt": "2026-09-15" }
   ],
   "rejected": [
-    { "sourceMsgId": "m6", "reason": "health", "note": "Medication mentioned. Nothing inferred, nothing kept." }
+    { "sourceMsgId": "m6", "reason": "health", "note": "Mentioned therapy. Nothing inferred, nothing kept." }
   ],
   "chipLines": {
     "slower": { "kind": "taste", "text": "Slower still. You want it drawn out, not hurried." },

@@ -18,7 +18,6 @@ export function Sidebar() {
       <div className="wordmark">
         <span className="dot" />
         <span>candy</span>
-        <span className="muted">shell lookalike</span>
       </div>
       <div className="search">Search</div>
       <nav className="charlist">
@@ -41,13 +40,19 @@ export function Sidebar() {
           </button>
         ))}
       </nav>
+      <p
+        className="sidebar-note"
+        title="This screen is a static lookalike of the conversation page, built for the demo. No Candy assets, scripts or data. Everything the character does is scripted; see the README."
+      >
+        About this demo <span aria-hidden>?</span>
+      </p>
     </aside>
   );
 }
 
 export function Header() {
   const { toggleDrawer, drawerOpen, diary } = useDemo();
-  const live = diary.lines.filter((l) => !l.deletedAt).length;
+  const live = diary.lines.filter((l) => !l.deletedAt && l.status === 'committed').length;
   return (
     <header className="header">
       <span className="avatar sm" />

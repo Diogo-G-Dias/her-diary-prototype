@@ -401,3 +401,24 @@ a {
     max-width: 90%;
   }
 }
+
+.sidebar-note {
+  margin: auto 14px 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--muted);
+  cursor: help;
+}
+
+.sidebar-note span {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-left: 4px;
+}
