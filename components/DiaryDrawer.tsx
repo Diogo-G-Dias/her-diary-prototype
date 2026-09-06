@@ -238,45 +238,14 @@ function Line({
   folded?: boolean;
   onTyped?: () => void;
 }) {
-  const { editLine, deleteLine } = useDemo();
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(line.text);
+  const { deleteLine } = useDemo();
   const [open, setOpen] = useState(false);
   const expired = isExpired(line.expiresAt, dayOffset);
   const hers = line.author === 'her';
 
   if (state === 'pending') return null;
 
-  const save = () => {
-    editLine(line.id, draft);
-    setEditing(false);
-  };
-
   const meta = [hers ? 'mine' : 'yours', KIND[line.kind], line.date, line.expiresAt ? (expired ? 'faded' : `fades ${shortIso(line.expiresAt)}`) : 'stays'].join(' · ');
-
-  if (editing) {
-    return (
-      <article className={`${styles.row} ${styles.editing} ${hers ? styles.hers : styles.yours}`}>
-        <div className={styles.editBox}>
-          <textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={2} aria-label="Edit line" autoFocus />
-          <div className={styles.editActions}>
-            <button type="button" onClick={save} className={styles.save}>
-              Make it yours
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setDraft(line.text);
-                setEditing(false);
-              }}
-            >
-              Leave it
-            </button>
-          </div>
-        </div>
-      </article>
-    );
-  }
 
   return (
     <article
@@ -298,9 +267,6 @@ ${line.text}`}
         <span className={styles.rowActions}>
           <button type="button" onClick={() => setOpen((o) => !o)} title="Read the whole line">
             {open ? 'close' : 'view'}
-          </button>
-          <button type="button" onClick={() => setEditing(true)} title="Rewrite it: it becomes yours and I never touch it again">
-            rewrite
           </button>
           <button type="button" onClick={() => deleteLine(line.id)} className={styles.danger} title="Crossed out for good: I never write it again">
             cross out
