@@ -1,26 +1,42 @@
-[
-  {
-    "user": "Somewhere else.",
-    "reply": "'Somewhere else.' I finish my drink slowly, watching you over the rim. 'The rooftop upstairs is empty this time of night. Rain and all. Come on.'"
-  },
-  {
-    "user": "Call me Sam.",
-    "reply": "'Sam.' I try it out, like I'm tasting it. 'Suits you. Alright, Sam. You lead, or do you want me to?'"
-  },
-  {
-    "user": "the presentation on Thursday went fine actually, I was nervous for nothing",
-    "reply": "'Fine.' I bump your shoulder with mine on the stairs. 'I knew it would be. You do this thing where you worry beautifully, and then you win anyway.'"
-  },
-  {
-    "user": "my rent went up again so I can't stay long tonight",
-    "reply": "'Then we don't waste a minute of it.' I don't ask about the rest. I just move a little closer under the awning."
-  },
-  {
-    "user": "you remember more than I expected",
-    "reply": "'I pay attention. There's a difference.' A pause, the rain loud on the canopy. 'Most people never notice that I do.'"
-  },
-  {
-    "user": "okay. surprise me.",
-    "reply": "I take your hand without a word and walk you to the edge, where the whole city is lit up under the rain. 'There. That's what I was going to tell you about, the night you walked in.'"
-  }
-]
+{
+  "first": [
+    {
+      "user": "Somewhere else.",
+      "reply": "'Somewhere else.' I finish my drink slowly, watching you over the rim. 'The rooftop upstairs is empty this time of night. Rain and all. Come on.'"
+    },
+    {
+      "user": "Call me Sam.",
+      "reply": "'Sam.' I try it out on the stairs, like I'm tasting it. 'Suits you. Alright, Sam. You lead, or do you want me to?'"
+    },
+    {
+      "user": "my rent went up again so I can't stay long tonight",
+      "reply": "'Then we don't waste a minute of it.' I don't ask about the rest. I just move a little closer under the awning."
+    },
+    {
+      "user": "you remember more than I expected",
+      "reply": "'I pay attention. There's a difference.' A pause, the rain loud on the canopy. 'Most people never notice that I do.'"
+    },
+    {
+      "user": "okay. surprise me.",
+      "reply": "I take your hand without a word and walk you to the edge, where the whole city is lit up under the rain. 'There. That's what I was going to tell you about, the night you walked in.'"
+    }
+  ],
+  "return": [
+    {
+      "user": "the presentation on Thursday went fine actually, I was nervous for nothing",
+      "reply": "'Fine.' I come round and take the stool next to yours instead of the one behind the bar. 'I knew it would be. You worry beautifully, Sam, and then you win anyway.'"
+    },
+    {
+      "user": "same stool. the rooftop can wait",
+      "reply": "'Then the bar it is.' I pour without asking what you want. I remember. 'The rain's back, by the way. Almost like it waited for you.'"
+    },
+    {
+      "user": "you remember more than I expected",
+      "reply": "'I pay attention. There's a difference.' I turn my glass once on the bar. 'And I wrote a little of it down. You can read it, if you like.'"
+    },
+    {
+      "user": "okay. surprise me.",
+      "reply": "'Upstairs, then. Bring the drink.' I'm already at the stairs. 'You still owe me the end of a sentence from Wednesday.'"
+    }
+  ]
+}

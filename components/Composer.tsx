@@ -7,13 +7,19 @@ import { useDemo } from '@/lib/DemoContext';
 import simulated from '@/seeds/simulatedUser.json';
 
 export default function Composer() {
-  const { sendMessage } = useDemo();
+  const { sendMessage, sessionKind } = useDemo();
   const [text, setText] = useState('');
   const simIndex = useRef(0);
+  const simSession = useRef(sessionKind);
 
-  // Sends the next scripted user message, so the demo can run without typing.
+  // Sends the next scripted turn for this session (first night, or the return two days later),
+  // so the demo can run without typing.
   const simulate = () => {
-    const pool = simulated as { user: string; reply: string }[];
+    if (simSession.current !== sessionKind) {
+      simSession.current = sessionKind;
+      simIndex.current = 0;
+    }
+    const pool = (simulated as Record<string, { user: string; reply: string }[]>)[sessionKind];
     const turn = pool[simIndex.current % pool.length];
     sendMessage(turn.user, turn.reply);
     simIndex.current += 1;
