@@ -4,7 +4,6 @@
 import { useEffect, useRef } from 'react';
 import { useDemo } from '@/lib/DemoContext';
 import { weekday } from '@/lib/demoClock';
-import Typewriter from './Typewriter';
 
 function stamp(index: number, dayOffset: number): string {
   const minutes = 21 * 60 + 12 + index * 2;
@@ -40,7 +39,7 @@ export default function Thread() {
                 }`}
               >
                 <div className="font-roboto text-grey-medium text-[15px] font-normal">
-                  <p>{m.typed ? <Typewriter text={m.text} msPerChar={15} /> : m.text}</p>
+                  <p>{m.text}</p>
                 </div>
                 <span className="text-[11px] text-white/30 whitespace-nowrap ml-auto leading-[20px] shrink-0">{stamp(i, dayOffset)}</span>
               </div>
