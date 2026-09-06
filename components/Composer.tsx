@@ -2,12 +2,21 @@
 
 // Candy's composer markup with our input behind it. Sending is never blocked: the bubble renders now
 // and her reply queues behind whatever she is doing.
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDemo } from '@/lib/DemoContext';
+import simulated from '@/seeds/simulatedUser.json';
 
 export default function Composer() {
   const { sendMessage } = useDemo();
   const [text, setText] = useState('');
+  const simIndex = useRef(0);
+
+  // Sends the next scripted user message, so the demo can run without typing.
+  const simulate = () => {
+    const pool = simulated as string[];
+    sendMessage(pool[simIndex.current % pool.length]);
+    simIndex.current += 1;
+  };
 
   const submit = () => {
     if (!text.trim()) return;
@@ -42,7 +51,19 @@ export default function Composer() {
                 }
               }}
             />
-            <div className="shrink-0">
+            <div className="shrink-0 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={simulate}
+                aria-label="Simulate my next message"
+                title="Simulate my next message"
+                className="shrink-0 h-10 px-3.5 rounded-full bg-white/[0.08] border border-white/[0.14] flex items-center gap-1.5 text-[12.5px] font-semibold text-white/80 hover:bg-white/[0.14] hover:text-white transition-all duration-300 ease-out"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                simulate
+              </button>
               <button
                 type="submit"
                 disabled={!text.trim()}
