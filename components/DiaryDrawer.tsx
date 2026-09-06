@@ -192,12 +192,10 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
 
 function PendingLine({ line }: { line: DiaryLine }) {
   return (
-    <article className={`${styles.line} ${styles.pendingLine}`}>
-      <header className={styles.lineHead}>
-        <span className={`tag ${styles.noticing}`}>noticing…</span>
-        <span className={`tag ${line.kind}`}>{KIND[line.kind]}</span>
-      </header>
-      <p className={`${styles.text} ${styles.ink}`}>{line.text}</p>
+    <article className={`${styles.row} ${styles.pendingLine}`} title={`${KIND[line.kind]} · not written down yet`}>
+      <span className={`${styles.dot} ${styles[line.kind]}`} aria-hidden />
+      <p className={`${styles.rowText} ${styles.ink}`}>{line.text}</p>
+      <span className={styles.rowMeta}>noticing…</span>
     </article>
   );
 }
@@ -205,15 +203,10 @@ function PendingLine({ line }: { line: DiaryLine }) {
 function RejectedLine({ r }: { r: Rejected }) {
   const rejecting = r.state === 'rejecting';
   return (
-    <article className={`${styles.line} ${styles.pendingLine} ${rejecting ? styles.rejecting : ''}`} title={r.note}>
-      <header className={styles.lineHead}>
-        <span className={`tag ${styles.noticing}`}>{rejecting ? 'kept to myself' : 'noticing…'}</span>
-        <span className={`tag ${styles.sensitive}`}>{rejecting ? REASON[r.reason] : 'yours, not mine'}</span>
-      </header>
-      <p className={`${styles.text} ${styles.ink}`}>
-        <span className={rejecting ? styles.struck : ''}>&ldquo;{r.fragment}&rdquo;</span>
-        {rejecting && <span className={styles.reason}> · {r.note}</span>}
-      </p>
+    <article className={`${styles.row} ${styles.pendingLine} ${rejecting ? styles.rejecting : ''}`} title={r.note}>
+      <span className={`${styles.dot} ${styles.sensitiveDot}`} aria-hidden />
+      <p className={`${styles.rowText} ${styles.ink} ${rejecting ? styles.struck : ''}`}>&ldquo;{r.fragment}&rdquo;</p>
+      <span className={`${styles.rowMeta} ${rejecting ? styles.reason : ''}`}>{rejecting ? `kept to myself · ${REASON[r.reason]}` : 'yours, not mine'}</span>
     </article>
   );
 }
@@ -246,22 +239,15 @@ function Line({
     setEditing(false);
   };
 
-  return (
-    <article
-      className={`${styles.line} ${hers ? styles.hers : styles.yours} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${
-        folded ? styles.foldedLine : ''
-      } ${line.pulse ? styles.pulse : ''}`}
-    >
-      <header className={styles.lineHead}>
-        <span className={styles.date}>{line.date}</span>
-        <span className={`tag ${hers ? 'hers' : 'yours'}`}>{hers ? 'mine' : 'yours'}</span>
-        <span className={`tag ${line.kind}`}>{KIND[line.kind]}</span>
-        {line.expiresAt && <span className={styles.expiry}>{expired ? 'faded' : `fades ${shortIso(line.expiresAt)}`}</span>}
-        {line.pinned && <span className={styles.pinMark}>kept</span>}
-      </header>
-      {editing ? (
+  const meta = [line.date, line.expiresAt ? (expired ? 'faded' : `fades ${shortIso(line.expiresAt)}`) : null].filter(Boolean).join(' · ');
+  const tip = `${hers ? 'mine' : 'yours'} · ${KIND[line.kind]} · ${meta}
+${line.text}`;
+
+  if (editing) {
+    return (
+      <article className={`${styles.row} ${styles.editing} ${hers ? styles.hers : styles.yours}`}>
         <div className={styles.editBox}>
-          <textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={3} aria-label="Edit line" autoFocus />
+          <textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={2} aria-label="Edit line" autoFocus />
           <div className={styles.editActions}>
             <button type="button" onClick={save} className={styles.save}>
               Make it yours
@@ -277,13 +263,25 @@ function Line({
             </button>
           </div>
         </div>
-      ) : (
-        <p className={`${styles.text} ${hers ? styles.ink : ''}`}>
-          {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
-        </p>
-      )}
-      {state === 'static' && !editing && (
-        <div className={styles.actions}>
+      </article>
+    );
+  }
+
+  return (
+    <article
+      className={`${styles.row} ${hers ? styles.hers : styles.yours} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${
+        folded ? styles.foldedLine : ''
+      } ${line.pulse ? styles.pulse : ''}`}
+      title={tip}
+    >
+      <span className={`${styles.dot} ${styles[line.kind]}`} aria-hidden />
+      <p className={`${styles.rowText} ${hers ? styles.ink : ''}`}>
+        {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
+      </p>
+      {line.pinned && <span className={styles.pinMark} title="kept">★</span>}
+      <span className={styles.rowMeta}>{line.date}</span>
+      {state === 'static' && (
+        <span className={styles.rowActions}>
           <button type="button" onClick={() => setEditing(true)} title="Rewrite it: it becomes yours and I never touch it again">
             rewrite
           </button>
@@ -293,7 +291,7 @@ function Line({
           <button type="button" onClick={() => deleteLine(line.id)} className={styles.danger} title="Crossed out for good: I never write it again">
             cross out
           </button>
-        </div>
+        </span>
       )}
     </article>
   );
