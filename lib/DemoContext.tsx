@@ -41,7 +41,7 @@ type DemoState = {
 };
 
 type DemoActions = {
-  sendMessage: (text: string, scriptedReply?: string) => void;
+  sendMessage: (text: string, scriptedReply?: string, diaryLine?: { kind: DiaryLine['kind']; text: string }) => void;
   regenerate: () => void;
   pickChip: (chip: Chip) => void;
   dismissChips: () => void;
@@ -168,7 +168,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const sendMessage = useCallback(
-    (text: string, scriptedReply?: string) => {
+    (text: string, scriptedReply?: string, diaryLine?: { kind: DiaryLine['kind']; text: string }) => {
       const trimmed = text.trim();
       if (!trimmed) return;
       setChipsVisible(false);
@@ -191,9 +191,27 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
         setAssistantTyping(false);
         setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text, typed: true }]);
         logUsage('reply');
+        if (diaryLine) {
+          // A scripted moment where she writes in the diary right away, mid-conversation.
+          await sleep(700);
+          const line: DiaryLine = {
+            id: `d_now_${id}`,
+            kind: diaryLine.kind,
+            text: diaryLine.text,
+            date: shortDate(dayOffset),
+            author: 'her',
+            pinned: false,
+            status: 'committed',
+            sourceMsgId: id,
+            createdAt: Date.now(),
+            fresh: true,
+            pulse: true,
+          };
+          setDiary((d) => store.writeNow(d, line));
+        }
       });
     },
-    [enqueue, logUsage, noticeMessage, sessionKind],
+    [dayOffset, enqueue, logUsage, noticeMessage, sessionKind],
   );
 
   const regenerate = useCallback(() => {
