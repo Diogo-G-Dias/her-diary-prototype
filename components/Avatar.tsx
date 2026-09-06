@@ -3,7 +3,7 @@
 export default function Avatar({ src, small, hue }: { src?: string; small?: boolean; hue?: string }) {
   return (
     <span className={`avatar ${small ? 'sm' : ''} ${hue ?? ''}`} aria-hidden>
-      {src && <img src={src} alt="" loading="lazy" />}
+      {src && <img src={src} alt="" />}
     </span>
   );
 }
