@@ -55,7 +55,7 @@ export function committedLines(diary: Diary): DiaryLine[] {
 }
 
 export function pendingLines(diary: Diary): DiaryLine[] {
-  return diary.lines.filter((l) => !l.deletedAt && l.status === 'pending').sort((a, b) => a.createdAt - b.createdAt);
+  return diary.lines.filter((l) => !l.deletedAt && l.status === 'pending').sort((a, b) => b.createdAt - a.createdAt);
 }
 
 export function deletedLines(diary: Diary): DiaryLine[] {

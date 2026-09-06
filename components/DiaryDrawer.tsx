@@ -35,7 +35,8 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
   const [typedCount, setTypedCount] = useState(0);
   const [dateFilter, setDateFilter] = useState<string | null>(null);
 
-  const freshIds = useMemo(() => shown.filter((l) => l.fresh).map((l) => l.id), [shown]);
+  // Newest sits on top, but she writes oldest first, so the page grows upward while she types.
+  const freshIds = useMemo(() => [...shown.filter((l) => l.fresh)].sort((a, b) => a.createdAt - b.createdAt).map((l) => l.id), [shown]);
   const noticedCount = pending.length + pendingRejected.filter((r) => r.state === 'pending').length;
   const dates = useMemo(() => Array.from(new Set(shown.map((l) => l.date))), [shown]);
   const sections = useMemo(() => {

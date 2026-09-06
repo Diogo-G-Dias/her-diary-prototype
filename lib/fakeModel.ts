@@ -96,7 +96,7 @@ export async function consolidate(input: ConsolidateInput): Promise<ConsolidateR
       expiresAt: seed?.expiresAt ?? p.expiresAt,
       status: 'committed',
       date,
-      createdAt: base - i,
+      createdAt: base + i, // written later, shown higher
       fresh: false,
       pulse: true,
     });
@@ -120,7 +120,7 @@ export async function consolidate(input: ConsolidateInput): Promise<ConsolidateR
       status: 'committed',
       sourceMsgId: s.sourceMsgId,
       expiresAt: s.expiresAt,
-      createdAt: base - pending.length - i,
+      createdAt: base + pending.length + i,
       fresh: true,
     });
   });
