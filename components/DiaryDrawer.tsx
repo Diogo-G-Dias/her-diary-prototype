@@ -183,8 +183,7 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
       )}
 
       <p className={styles.foot}>
-        Every line points back at something you said to me. What you like, I keep. Where we were fades. Twelve lines, never more. The
-        rest I remember on my own.
+        All of this comes from what you told me. What you like stays. Where we were fades. Never more than twelve lines.
       </p>
     </aside>
   );
