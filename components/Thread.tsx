@@ -13,7 +13,8 @@ export default function Thread() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [thread, assistantTyping]);
 
-  const lastAssistant = [...thread].reverse().find((m) => m.role === 'assistant' && !m.replaced);
+  const last = thread[thread.length - 1];
+  const lastAssistant = last && last.role === 'assistant' && !last.replaced ? last : null;
 
   return (
     <div className="thread" ref={ref}>

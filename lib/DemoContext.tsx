@@ -94,6 +94,34 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     if (hydrated) store.save(diary);
   }, [diary, hydrated]);
 
+  // The seeded thread ends on the user's question. She answers it on load, so Regenerate has a reply to act on.
+  const answeredSeed = useRef(false);
+  useEffect(() => {
+    if (!hydrated || answeredSeed.current) return;
+    answeredSeed.current = true;
+    const last = thread[thread.length - 1];
+    if (!last || last.role !== 'user') return;
+    busy.current = true;
+    let cancelled = false;
+    (async () => {
+      await new Promise((r) => setTimeout(r, 900));
+      if (cancelled) return;
+      setAssistantTyping(true);
+      const r = await reply(scriptedIndex.current);
+      if (cancelled) return;
+      scriptedIndex.current = r.nextIndex;
+      setAssistantTyping(false);
+      setThread((t) => [...t, { id: nextId('a'), role: 'assistant', text: r.text, typed: true }]);
+      logUsage('reply');
+      busy.current = false;
+    })();
+    return () => {
+      cancelled = true;
+      busy.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated]);
+
   const showToast = useCallback((text: string) => {
     setToast(text);
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -107,15 +135,13 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
 
   const swapLastReply = useCallback(async (text: string) => {
     // Old and new reply shown stacked for about 2 s, then the old one collapses.
+    // Only the last message can be regenerated, and only if it is hers.
     let oldId: string | null = null;
     setThread((t) => {
-      const idx = [...t].reverse().findIndex((m) => m.role === 'assistant' && !m.replaced);
-      if (idx === -1) return [...t, { id: nextId('a'), role: 'assistant', text, typed: true }];
-      const real = t.length - 1 - idx;
-      oldId = t[real].id;
-      const copy = t.map((m, i) => (i === real ? { ...m, replaced: true, typed: false } : m));
-      copy.splice(real + 1, 0, { id: nextId('a'), role: 'assistant', text, typed: true });
-      return copy;
+      const last = t[t.length - 1];
+      if (!last || last.role !== 'assistant') return [...t, { id: nextId('a'), role: 'assistant', text, typed: true }];
+      oldId = last.id;
+      return [...t.slice(0, -1), { ...last, replaced: true, typed: false }, { id: nextId('a'), role: 'assistant', text, typed: true }];
     });
     await new Promise((r) => setTimeout(r, 2000));
     if (oldId) setThread((t) => t.filter((m) => m.id !== oldId));

@@ -2,6 +2,11 @@
 // day 0 is Wed 6 Sep, the presentation is Thu 7 Sep, "Come back in 2 days" lands on Fri 8 Sep.
 const BASE = new Date(Date.UTC(2026, 8, 6)); // 6 Sep 2026
 const WEEKDAYS = ['Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function fmt(d: Date): string {
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+}
 
 export function dateAt(offsetDays: number): Date {
   const d = new Date(BASE);
@@ -10,8 +15,7 @@ export function dateAt(offsetDays: number): Date {
 }
 
 export function shortDate(offsetDays: number): string {
-  const d = dateAt(offsetDays);
-  return `${d.getUTCDate()} ${d.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' })}`;
+  return fmt(dateAt(offsetDays));
 }
 
 export function weekday(offsetDays: number): string {
@@ -29,6 +33,5 @@ export function isExpired(expiresAt: string | undefined, offsetDays: number): bo
 
 export function shortIso(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m - 1, d));
-  return `${dt.getUTCDate()} ${dt.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' })}`;
+  return fmt(new Date(Date.UTC(y, m - 1, d)));
 }

@@ -106,6 +106,7 @@ a {
 
 .charlist {
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 0 8px 12px;
   display: flex;
   flex-direction: column;
@@ -126,6 +127,11 @@ a {
 
 .charrow.active {
   background: var(--panel-2);
+}
+
+.charrow > span:last-child {
+  min-width: 0;
+  display: block;
 }
 
 .charrow .name {
