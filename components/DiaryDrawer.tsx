@@ -226,7 +226,7 @@ function Line({
   folded?: boolean;
   onTyped?: () => void;
 }) {
-  const { editLine, deleteLine, togglePin } = useDemo();
+  const { editLine, deleteLine } = useDemo();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(line.text);
   const expired = isExpired(line.expiresAt, dayOffset);
@@ -278,15 +278,11 @@ ${line.text}`;
       <p className={`${styles.rowText} ${hers ? styles.ink : ''}`}>
         {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
       </p>
-      {line.pinned && <span className={styles.pinMark} title="kept">★</span>}
       <span className={styles.rowMeta}>{line.date}</span>
       {state === 'static' && (
         <span className={styles.rowActions}>
           <button type="button" onClick={() => setEditing(true)} title="Rewrite it: it becomes yours and I never touch it again">
             rewrite
-          </button>
-          <button type="button" onClick={() => togglePin(line.id)} title="Kept lines stay at the top and never fade">
-            {line.pinned ? 'let go' : 'keep'}
           </button>
           <button type="button" onClick={() => deleteLine(line.id)} className={styles.danger} title="Crossed out for good: I never write it again">
             cross out
