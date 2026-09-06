@@ -190,6 +190,7 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
 }
 
 function PendingLine({ line }: { line: DiaryLine }) {
+  const { deleteLine } = useDemo();
   const [open, setOpen] = useState(false);
   return (
     <article className={`${styles.row} ${styles.pendingLine} ${open ? styles.openRow : ''}`} title={`${KIND[line.kind]} · not written down yet`}>
@@ -202,6 +203,9 @@ function PendingLine({ line }: { line: DiaryLine }) {
       <span className={styles.rowActions}>
         <button type="button" onClick={() => setOpen((o) => !o)}>
           {open ? 'close' : 'view'}
+        </button>
+        <button type="button" onClick={() => deleteLine(line.id)} className={styles.danger} title="Crossed out before she writes it: she never will">
+          cross out
         </button>
       </span>
     </article>
