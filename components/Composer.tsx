@@ -4,11 +4,9 @@
 // and her reply queues behind whatever she is doing.
 import { useState } from 'react';
 import { useDemo } from '@/lib/DemoContext';
-import { CHIPS } from '@/lib/types';
-import styles from './Composer.module.css';
 
 export default function Composer() {
-  const { sendMessage, chipsVisible, pickChip, dismissChips } = useDemo();
+  const { sendMessage } = useDemo();
   const [text, setText] = useState('');
 
   const submit = () => {
@@ -19,19 +17,6 @@ export default function Composer() {
 
   return (
     <div className="w-full">
-      {chipsVisible && (
-        <div className={styles.chips} role="group" aria-label="Why regenerate?">
-          <span className={styles.chipsLabel}>Not quite? Tell her why:</span>
-          {CHIPS.map((c) => (
-            <button key={c} type="button" className={styles.chip} onClick={() => pickChip(c)}>
-              {c}
-            </button>
-          ))}
-          <button type="button" className={styles.dismiss} onClick={dismissChips} aria-label="Dismiss">
-            skip
-          </button>
-        </div>
-      )}
       <form
         className="new_message"
         onSubmit={(e) => {

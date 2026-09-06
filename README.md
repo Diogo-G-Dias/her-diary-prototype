@@ -27,10 +27,8 @@ pre-generated opener, and a 300-token diary block on every turn. The prompts and
    one faked consolidation call: pending lines firm up into dated lines marked *hers*, the story lines only
    the boundary job writes are typed out, and the therapy mention is visibly struck through with its reason
    before it fades. Header: "4 written · 1 not kept".
-2. **Correct.** **Regenerate** on her last reply stays one tap. After it, four chips ask why: *slower · more
-   direct · less talking · somewhere else*. A chip writes a taste line to the diary at once and swaps the
-   reply for that chip's variant. In the drawer you can edit a line (it becomes *yours*), delete one (a
-   tombstone: it never comes back), or pin one (stays on top, never folds).
+2. **Correct.** Cross out any line, written or still being noticed, and it stays out for good, even if
+   you say the same thing again in other words. View opens a line in place with its date and kind.
 3. **Return.** **Come back in 2 days** clears the thread and she speaks first, from the page: "Same stool at
    the bar, or somewhere quieter tonight? And it's Friday. How did Thursday go?" If you crossed out the
    Thursday line, she drops the Thursday question. **Reset chat** wipes the thread; the page survives. End

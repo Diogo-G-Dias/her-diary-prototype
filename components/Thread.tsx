@@ -15,16 +15,13 @@ function stamp(index: number, dayOffset: number): string {
 }
 
 export default function Thread() {
-  const { thread, assistantTyping, regenerate, chipsVisible, sessionKind, wasReset, dayOffset } = useDemo();
+  const { thread, assistantTyping, sessionKind, wasReset, dayOffset } = useDemo();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const scroller = ref.current?.closest('.overflow-y-auto') as HTMLElement | null;
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
   }, [thread, assistantTyping]);
-
-  const last = thread[thread.length - 1];
-  const lastAssistant = last && last.role === 'assistant' && !last.replaced ? last : null;
 
   return (
     <div ref={ref} className="relative px-3 md:px-2 pb-4 pt-3 w-full md:max-w-[774px] md:mx-auto">
@@ -80,20 +77,6 @@ export default function Thread() {
             </div>
           </div>
         </div>
-      )}
-      {lastAssistant && !assistantTyping && !chipsVisible && (
-        <button
-          type="button"
-          onClick={regenerate}
-          className="mt-1 ml-1 inline-flex items-center gap-1.5 text-[12px] text-white/50 hover:text-white transition-colors"
-          aria-label="Regenerate reply"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            <path d="M21 12a9 9 0 1 1-2.64-6.36" />
-            <path d="M21 3v6h-6" />
-          </svg>
-          Regenerate
-        </button>
       )}
     </div>
   );
