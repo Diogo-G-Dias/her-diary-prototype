@@ -5,69 +5,69 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <ul class="py-8 lg:py-6 flex flex-col gap-2 items-center justify-start px-6 overflow-y-auto overflow-x-auto" role="list">
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/home-18a7d73adabda5674f78dab4a3d6b3acebbdbba31f0ad19053537dabffade496.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/explore-3a4a39d3c6126c743969aa14b3a4841763f5b600e0f77e317a32d7c30afbcc13.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/shorts-dd7eca01fe7f8a694cd100be90b5b6c20d241a5bf4c8b8c0f8633864125cffae.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/candy-shop-d549838a0f3746c8cdf58c1cf0684d40990ec9b275fa8ac042c47379182965d1.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer bg-[#303030]" href="#">
 <div class="relative">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/chat-1f356f466c9023c851a3a185fd1e607229737246758457a3f49b82e17bc5d82b.svg"/>
 <turbo-frame>
 </turbo-frame> </div>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/gallery-b83c72cb24c980d5e254daba38d4e3690f281b07c3e5665a052e0f76fff031b8.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="relative h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/magic-wand-bc43a2a37c108cc6308370c0e6fada5385fd848143063f66116694fd9aa075b7.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/love-lady-760605daa886b7e49e77d5d26c1047bc0f815c005a978a5c76810db20bc355dd.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/heart-lock-c322a04a0a80c5ca1b50658063120fa33d2f209b5e0980e7be8e47cc9667f736.svg"/>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 justify-start px-3 items-center gap-2 flex mx-auto cursor-pointer bg-linear-to-t from-[#5B4514] to-transparent to-98% from-2%" href="#">
-<img alt="" class="w-2.5 h-2.5 absolute left-[4px] top-[4px] transform scale-x-[-1] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-2.5 h-2.5 absolute left-[4px] top-[4px] transform scale-x-[-1]" src="/shell/icon-513af0057e4b673067a8049311ea31fe24a74b04337db95bf10d618a16abcfb7.svg"/>
+<img alt="" class="w-6 h-6" src="/shell/token-4193ee36c35274edacea995ff69347bb8d3e75f4094143958306eac195fe9a83.svg"/>
 </a></li>
 </ul>
 </div>
 <ul class="flex flex-col gap-2 pt-6 px-6 border-[#363636] border-t items-center justify-end" role="list">
 <li class="relative w-full">
 <button class="flex gap-2 items-center border cursor-pointer text-grey-medium text-xs font-medium w-full h-[48px] justify-start px-3 py-[9px] rounded-[10px] border-white/10 hover:bg-zinc-700">
-<img alt="" class="h-[24px] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="h-[24px]" src="/shell/en-337bbb31fb6de773da4d64ab2e90f99d4706f32ade21156a47b8603dfeccb1e4.svg"/>
 </button>
 </li>
 <li class="relative w-full">
 <a class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#" rel="noopener noreferrer">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/discord-526bbe3abf7210fa8bd8e76658d4df5a5c67d569f1349a2441b1d0bbd170c84d.svg"/>
 </a> </li>
 <li class="relative w-full toggle-popup">
 <div class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/contact-c50065a887c8d0061543beceae78cec1bdaaac55ec7d37f11601912b3250e119.svg"/>
 </div>
 </li>
 <li class="relative w-full">
 <a class="" href="#">
 <div class="h-[48px] w-[52px] hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer">
-<img alt="" class="w-6 h-6 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-6 h-6" src="/shell/trophy-55ba15bcf830427b6fc776e11ff4465cce75c1c2a1a27ba0bd2eea0e5c03ff55.svg"/>
 </div>
 </a> </li>
 </ul>
@@ -78,55 +78,55 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <ul class="py-8 lg:py-6 flex flex-col gap-2 items-center justify-start px-6 flex-1 min-h-0 overflow-y-auto scrollbar" role="list">
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/home-18a7d73adabda5674f78dab4a3d6b3acebbdbba31f0ad19053537dabffade496.svg"/>
 <span class="text-start text-grey-medium text-xxs font-medium leading-4">Home</span>
 </a> </li>
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/explore-3a4a39d3c6126c743969aa14b3a4841763f5b600e0f77e317a32d7c30afbcc13.svg"/>
 <span class="text-start text-grey-medium text-xxs font-medium leading-4">Discover</span>
 </a> </li>
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/shorts-dd7eca01fe7f8a694cd100be90b5b6c20d241a5bf4c8b8c0f8633864125cffae.svg"/>
 <span class="text-start text-grey-medium text-xxs font-medium leading-4">Shorts</span>
 </a> </li>
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/candy-shop-d549838a0f3746c8cdf58c1cf0684d40990ec9b275fa8ac042c47379182965d1.svg"/>
 <span class="text-start text-grey-medium text-xxs font-medium leading-4 truncate">Candy Shop</span>
 <span class="ml-auto shrink-0 bg-red-badge text-white text-4xs leading-2.75 font-bold uppercase rounded-[100px] px-[5px] py-[2px]">NEW</span>
 </a> </li>
 <li class="relative w-full">
 <a class="bg-[#303030] min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/chat-1f356f466c9023c851a3a185fd1e607229737246758457a3f49b82e17bc5d82b.svg"/>
 <span class="text-start text-grey-medium text-xxs font-medium leading-4">Chat</span>
 <turbo-frame class="ml-auto">
 </turbo-frame></a> </li>
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/gallery-b83c72cb24c980d5e254daba38d4e3690f281b07c3e5665a052e0f76fff031b8.svg"/>
 <div class="text-start text-grey-medium text-xxs font-medium leading-4">Collection</div>
 </a> </li>
 <li class="relative w-full">
 <a class="relative min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/magic-wand-bc43a2a37c108cc6308370c0e6fada5385fd848143063f66116694fd9aa075b7.svg"/>
 <div class="text-start text-grey-medium text-xxs font-medium leading-none"></div>
 </a> </li>
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/love-lady-760605daa886b7e49e77d5d26c1047bc0f815c005a978a5c76810db20bc355dd.svg"/>
 <div class="text-start text-grey-medium text-xxs font-medium leading-none"></div>
 </a> </li>
 <li class="relative w-full">
 <a class="min-h-[40px] w-full hover:bg-zinc-700 rounded-[10px] border border-white/10 flex justify-start px-3 items-center gap-2 mx-auto cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/heart-lock-c322a04a0a80c5ca1b50658063120fa33d2f209b5e0980e7be8e47cc9667f736.svg"/>
 <div class="text-start text-grey-medium text-xxs font-medium leading-none"></div>
 </a> </li>
 <li class="relative w-full">
 <a class="h-[40px] hover:bg-zinc-700 rounded-[10px] border border-white/10 justify-start px-3 items-center gap-2 flex mx-auto cursor-pointer" href="#">
-<img alt="" class="w-2.5 h-2.5 absolute left-[4px] top-[4px] transform scale-x-[-1] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-2.5 h-2.5 absolute left-[4px] top-[4px] transform scale-x-[-1]" src="/shell/icon-513af0057e4b673067a8049311ea31fe24a74b04337db95bf10d618a16abcfb7.svg"/>
+<img alt="" class="w-4 h-4" src="/shell/token-4193ee36c35274edacea995ff69347bb8d3e75f4094143958306eac195fe9a83.svg"/>
 <div class="flex justify-between items-center w-full min-w-0">
 <div class="text-start text-xxs font-medium leading-none truncate bg-linear-to-r from-[#F9D98E] to-[#D0B067] bg-clip-text text-transparent"></div>
 <span class="shrink-0 px-1 font-medium text-[10px] rounded-[10px] bg-[#B91923] text-white"></span>
@@ -137,30 +137,30 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <ul class="flex flex-col gap-2 pt-6 px-6 border-[#363636] border-t items-center justify-end shrink-0" role="list">
 <li class="relative w-full">
 <button class="flex gap-2 items-center border cursor-pointer text-grey-medium text-xs font-medium w-full justify-start px-3 py-[9px] rounded-[10px] border-white/10 hover:bg-zinc-700">
-<img alt="" class="w-[14px] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-[14px]" src="/shell/en-337bbb31fb6de773da4d64ab2e90f99d4706f32ade21156a47b8603dfeccb1e4.svg"/>
 <div>English</div>
 </button>
 </li>
 <li class="relative w-full">
 <a class="min-h-[40px] hover:bg-zinc-700 rounded-[10px] border border-white/10 justify-start px-3 items-center gap-2 flex cursor-pointer" href="#" rel="noopener noreferrer">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/discord-526bbe3abf7210fa8bd8e76658d4df5a5c67d569f1349a2441b1d0bbd170c84d.svg"/>
 <div class="text-start text-grey-medium text-xs font-medium leading-4">Discord</div>
 </a> </li>
 <li class="relative w-full">
 <a class="flex w-full gap-2 items-center min-h-[40px] px-3 rounded-[10px] border border-white/10 hover:bg-zinc-700 cursor-pointer" href="#">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/help-center-1abd5651dab8abd889622a19eb9821ab4c19bd275da4ac1b9717820842a98dd8.svg"/>
 <div class="text-grey-medium text-xs font-medium leading-4 pt-[1px]">Help Center</div>
 </a> </li>
 <li class="relative w-full">
 <div class="min-h-[40px] hover:bg-zinc-700 rounded-[10px] border border-white/10 justify-start px-3 items-center gap-2 flex cursor-pointer">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/contact-c50065a887c8d0061543beceae78cec1bdaaac55ec7d37f11601912b3250e119.svg"/>
 <div class="text-start sidebar-text text-grey-medium text-xs font-medium leading-4">Contact Us</div>
 </div>
 </li>
 <li class="relative w-full">
 <a class="" href="#">
 <div class="min-h-[40px] hover:bg-zinc-700 rounded-[10px] border border-white/10 justify-start px-3 items-center gap-2 flex cursor-pointer">
-<img alt="" class="w-4 h-4 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-4 h-4" src="/shell/trophy-55ba15bcf830427b6fc776e11ff4465cce75c1c2a1a27ba0bd2eea0e5c03ff55.svg"/>
 <div class="text-start text-grey-medium text-xs font-medium leading-4">Affiliate</div>
 </div>
 </a> </li>
@@ -185,13 +185,13 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 </svg>
 </button>
 <a href="#">
-<span class="text-white text-xl font-bold tracking-tight">candy<span class="text-pink-500">.ai</span></span>
+<img alt="" class="h-[30px] w-[100px]" src="/shell/logo-navbar-d321c31d58617371f7caf9e34a4e3f9624dce580afcceb6fecdf48c78beafd83.svg"/>
 </a>
 <div class="flex self-stretch flex-1 items-center justify-end pl-5 md:pl-0 gap-x-2 lg:gap-x-4">
 <div class="flex items-center gap-2">
 <div class="w-fit relative">
 <button aria-expanded="false" class="flex px-[13px] py-[7px] rounded-[100px] bg-[#2b2416] justify-center items-center gap-[7px] text-white text-sm font-semibold leading-5" type="button">
-<img alt="" class="h-[18px] w-[18px] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="h-[18px] w-[18px]" src="/shell/token-4f2c951e0a476a1cf59eadbc2108289323778ccb84fb232782ae923a8d1b8961.svg"/>
 <div class="flex gap-1">
 <turbo-cable-stream-source channel="Turbo::StreamsChannel" connected="" signed-stream-name="IloybGtPaTh2WTJGdVpIa3RZV2t2VlhObGNpODFOVFUyTVRReE9BOnRva2VuX2JhbGFuY2Ui--5ae9802c4f8738463355e6cc2a9e718f8873044f142204364d6cc1197d3481f5"></turbo-cable-stream-source>
 <span>
@@ -199,7 +199,7 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <span class="md:hidden">0</span>
 </span>
 </div>
-<img alt="" class="h-4 w-4 opacity-70 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="h-4 w-4 opacity-70" src="/shell/expand-cd76d60d9e4264d89102db00cc87d69cb1ecd6c96663e5cea3809a90dd47a9ab.svg"/>
 </button>
 </div>
 </div>
@@ -208,7 +208,7 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <button aria-expanded="false" class="flex items-center justify-center size-[38px] rounded-full bg-[#221c26]" type="button">
 <span class="sr-only"></span>
 <div class="relative">
-<img alt="" class="w-[18px] h-[18px] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-[18px] h-[18px]" src="/shell/user-136475e1e7120a61ab13061e84c88cdf96837d2fb8eafda7a8c5b73815512f42.svg"/>
 </div>
 </button>
 </div>
@@ -222,18 +222,18 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <div class="items-center gap-3.5 lg:hidden inline-flex relative">
 <a class="block lg:hidden w-5 h-5 call-back-arrow" href="#">
 <div class="relative">
-<img alt="" class="w-full h-full opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-full h-full" src="/shell/left-arrow-f868c26904169b67e7d546db2ca2c8ba3b618d29b04d2baea9bd3eebb041484a.svg"/>
 </div>
 </a></div>
 <div class="flex-1 justify-start items-center gap-3.5 inline-flex relative py-2 min-w-0 overflow-visible">
 <div class="md:w-[58px] md:h-[58px] w-[44px] h-[44px] relative shrink-0">
-<img alt="" class="cursor-pointer inline-flex lg:hidden md:w-[58px] md:h-[58px] w-[44px] h-[44px] object-cover object-top left-0 top-0 absolute rounded-full" src="/avatars/aria.jpg"/>
-<img alt="" class="cursor-pointer hidden lg:inline-flex md:w-[58px] md:h-[58px] w-[44px] h-[44px] object-cover object-top left-0 top-0 absolute rounded-full" src="/avatars/aria.jpg"/>
+<img alt="" class="cursor-pointer inline-flex lg:hidden md:w-[58px] md:h-[58px] w-[44px] h-[44px] object-cover object-top left-0 top-0 absolute rounded-full" src="/shell/663716673-2a94eb6d-b6c5-4202-82f5-6745586ed14d-96x96-webp90.webp"/>
+<img alt="" class="cursor-pointer hidden lg:inline-flex md:w-[58px] md:h-[58px] w-[44px] h-[44px] object-cover object-top left-0 top-0 absolute rounded-full" src="/shell/663716673-2a94eb6d-b6c5-4202-82f5-6745586ed14d-96x96-webp90.webp"/>
 </div>
 <div class="flex-col justify-start items-start gap-1 inline-flex truncate">
 <div class="flex items-center gap-1 w-full">
 <h1 class="truncate text-white text-[20px] font-semibold leading-[30px]">Aria</h1>
-<img alt="" aria-hidden="true" class="w-5 h-5 shrink-0 opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" aria-hidden="true" class="w-5 h-5 shrink-0" src="/shell/celebrity_badge-5250c06e6df3d73ae2b7176487f82d5fe8239958a1e9439845ce54fe656539de.svg"/>
 </div>
 <div>
 <span class="flex items-center gap-1.5">
@@ -245,7 +245,7 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 </div>
 <div class="flex items-center justify-center gap-3 lg:gap-6">
 <button aria-label="Open gallery" class="flex cursor-pointer items-center lg:hidden" type="button">
-<img alt="" aria-hidden="true" class="size-[26px] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" aria-hidden="true" class="size-[26px]" src="/shell/gallery-13117b0fd03cc89ce3ab100a463bb4dc6e3de0e2630dd4dbcb6a06726f61d0ea.svg"/>
 </button>
 <a class="flex cursor-pointer text-white" href="#">
 <svg aria-hidden="true" class="size-[26px] lg:size-8" fill="none" height="24" viewbox="0 0 32 32" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -255,14 +255,14 @@ export const SHELL_HTML = `<div class="lg:fixed lg:pt-[63px] z-30 border-[#36363
 <div class="hidden lg:inline-flex items-center">
 <div class="relative">
 <button class="relative flex items-center justify-center size-[34px] rounded-lg cursor-pointer" type="button">
-<img alt="" class="size-[34px] opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="size-[34px]" src="/shell/vertical_ellipsis-4238a31f87b3910565d074842eedc4573c187b4b9ed30e1e64edfb78fe3eec48.svg"/>
 </button>
 <div class="absolute z-10 top-[60px] right-[-12px]">
 </div>
 </div>
 </div>
 <div class="hidden lg:inline-flex h-full justify-ends gap-3.5 items-center relative py-2">
-<img alt="" class="w-10 h-10 cursor-pointer opacity-40" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='5' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E"/>
+<img alt="" class="w-10 h-10 cursor-pointer" src="/shell/toggle-button-be709e4c23c9b8bd0970362aefafe45971c1bb5dc441ee71b92ddf359c438bf2.svg"/>
 </div>
 </div>
 <div class="lg:hidden absolute top-full inset-x-0 z-50 flex flex-col items-center pointer-events-none">

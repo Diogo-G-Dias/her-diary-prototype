@@ -101,8 +101,8 @@ The frame is Candy.ai's real conversation screen, captured once from a logged-in
 
 - scripts, iframes, hidden modals, toasts, forms and every identifier, data attribute, handler and link
   target removed;
-- every message, chat-list name, preview and timestamp replaced, every image swapped for a neutral
-  placeholder, the character renamed Aria, the logo replaced by a text wordmark;
+- every message, chat-list name, preview and timestamp replaced and the character renamed Aria; every
+  image and icon the save included copied into `public/shell/` so the frame is a 1:1 visual copy;
 - the stylesheet purged from 943 KB to the rules the frame and our components actually use, with every
   external asset reference stripped.
 
