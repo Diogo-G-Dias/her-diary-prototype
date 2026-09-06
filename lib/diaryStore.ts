@@ -92,14 +92,6 @@ export function commit(diary: Diary, converted: DiaryLine[], fresh: DiaryLine[],
   return { ...diary, lines: [...lines, ...fresh.filter((f) => !present.has(f.id))] };
 }
 
-// She writes a line mid-conversation: it replaces whatever she was still noticing about the same message.
-export function writeNow(diary: Diary, line: DiaryLine): Diary {
-  const dead = new Set(tombstones(diary));
-  if (dead.has(line.id) || diary.lines.some((l) => l.deletedAt && l.sourceMsgId && l.sourceMsgId === line.sourceMsgId)) return diary;
-  const lines = diary.lines.filter((l) => !(l.status === 'pending' && !l.deletedAt && l.sourceMsgId === line.sourceMsgId && l.kind === line.kind));
-  return { ...diary, lines: [...lines, line] };
-}
-
 export function clearPending(diary: Diary): Diary {
   if (!diary.lines.some((l) => l.status === 'pending' && !l.deletedAt)) return diary;
   return { ...diary, lines: diary.lines.filter((l) => l.status !== 'pending' || l.deletedAt) };

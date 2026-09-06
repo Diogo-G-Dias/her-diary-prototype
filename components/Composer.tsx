@@ -13,9 +13,9 @@ export default function Composer() {
 
   // Sends the next scripted user message, so the demo can run without typing.
   const simulate = () => {
-    const pool = simulated as { user: string; reply: string; diary?: { kind: 'taste' | 'fact' | 'scene'; text: string } }[];
+    const pool = simulated as { user: string; reply: string }[];
     const turn = pool[simIndex.current % pool.length];
-    sendMessage(turn.user, turn.reply, turn.diary);
+    sendMessage(turn.user, turn.reply);
     simIndex.current += 1;
   };
 
