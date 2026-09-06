@@ -709,3 +709,92 @@
   font-size: 12px;
   padding: 2px 8px;
 }
+
+/* Hover-only actions, plus a view toggle that opens the row. */
+.rowActions {
+  display: none;
+}
+
+.row:hover .rowActions,
+.row:focus-within .rowActions,
+.openRow .rowActions {
+  display: inline-flex;
+}
+
+.row:hover .rowMeta,
+.row:focus-within .rowMeta,
+.openRow .rowMeta {
+  display: none;
+}
+
+.rowBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.openRow {
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.openRow .dot {
+  margin-top: 8px;
+}
+
+.openRow .rowText {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.rowDetail {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.openRow .rowActions {
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.row.pendingLine .rowMeta {
+  display: inline;
+}
+
+.row.pendingLine:hover .rowMeta,
+.row.pendingLine.openRow .rowMeta {
+  display: none;
+}
+
+/* Rows never get squashed by the scrolling page; an open row stacks text, then actions. */
+.row {
+  flex-shrink: 0;
+}
+
+.openRow {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+.openRow .rowBody {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.openRow .rowActions {
+  flex: 0 0 100%;
+  justify-content: flex-end;
+  margin-top: 0;
+  align-self: auto;
+}
+
+.openRow .rowText {
+  font-size: 16px;
+  line-height: 1.35;
+}

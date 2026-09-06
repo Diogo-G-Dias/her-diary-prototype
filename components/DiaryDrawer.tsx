@@ -190,11 +190,20 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
 }
 
 function PendingLine({ line }: { line: DiaryLine }) {
+  const [open, setOpen] = useState(false);
   return (
-    <article className={`${styles.row} ${styles.pendingLine}`} title={`${KIND[line.kind]} · not written down yet`}>
+    <article className={`${styles.row} ${styles.pendingLine} ${open ? styles.openRow : ''}`} title={`${KIND[line.kind]} · not written down yet`}>
       <span className={`${styles.dot} ${styles[line.kind]}`} aria-hidden />
-      <p className={`${styles.rowText} ${styles.ink}`}>{line.text}</p>
+      <div className={styles.rowBody}>
+        <p className={`${styles.rowText} ${styles.ink}`}>{line.text}</p>
+        {open && <p className={styles.rowDetail}>{KIND[line.kind]} · noticed while we talked · not written down yet</p>}
+      </div>
       <span className={styles.rowMeta}>noticing…</span>
+      <span className={styles.rowActions}>
+        <button type="button" onClick={() => setOpen((o) => !o)}>
+          {open ? 'close' : 'view'}
+        </button>
+      </span>
     </article>
   );
 }
@@ -228,6 +237,7 @@ function Line({
   const { editLine, deleteLine } = useDemo();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(line.text);
+  const [open, setOpen] = useState(false);
   const expired = isExpired(line.expiresAt, dayOffset);
   const hers = line.author === 'her';
 
@@ -238,9 +248,7 @@ function Line({
     setEditing(false);
   };
 
-  const meta = [line.date, line.expiresAt ? (expired ? 'faded' : `fades ${shortIso(line.expiresAt)}`) : null].filter(Boolean).join(' · ');
-  const tip = `${hers ? 'mine' : 'yours'} · ${KIND[line.kind]} · ${meta}
-${line.text}`;
+  const meta = [hers ? 'mine' : 'yours', KIND[line.kind], line.date, line.expiresAt ? (expired ? 'faded' : `fades ${shortIso(line.expiresAt)}`) : 'stays'].join(' · ');
 
   if (editing) {
     return (
@@ -270,15 +278,23 @@ ${line.text}`;
     <article
       className={`${styles.row} ${hers ? styles.hers : styles.yours} ${line.pinned ? styles.pinned : ''} ${expired ? styles.expired : ''} ${
         folded ? styles.foldedLine : ''
-      } ${line.pulse ? styles.pulse : ''}`}
-      title={tip}
+      } ${line.pulse ? styles.pulse : ''} ${open ? styles.openRow : ''}`}
+      title={open ? undefined : `${meta}
+${line.text}`}
     >
       <span className={`${styles.dot} ${styles[line.kind]}`} aria-hidden />
-      <p className={`${styles.rowText} ${hers ? styles.ink : ''}`}>
-        {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
-      </p>
+      <div className={styles.rowBody}>
+        <p className={`${styles.rowText} ${hers ? styles.ink : ''}`}>
+          {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}
+        </p>
+        {open && <p className={styles.rowDetail}>{meta}</p>}
+      </div>
+      <span className={styles.rowMeta}>{line.date}</span>
       {state === 'static' && (
         <span className={styles.rowActions}>
+          <button type="button" onClick={() => setOpen((o) => !o)} title="Read the whole line">
+            {open ? 'close' : 'view'}
+          </button>
           <button type="button" onClick={() => setEditing(true)} title="Rewrite it: it becomes yours and I never touch it again">
             rewrite
           </button>
