@@ -7,7 +7,6 @@ import Composer from '@/components/Composer';
 import ChatList from '@/components/ChatList';
 import DiaryDrawer from '@/components/DiaryDrawer';
 import ReturnPanels from '@/components/ReturnPanels';
-import CostFooter from '@/components/CostFooter';
 import DemoControls from '@/components/DemoControls';
 
 export default function Page() {
@@ -29,7 +28,6 @@ function App() {
           chatlist: <ChatList />,
           drawer: <DiaryDrawer variant="panel" />,
           controls: <DemoControls />,
-          cost: <CostFooter />,
         }}
       />
       {toast && (

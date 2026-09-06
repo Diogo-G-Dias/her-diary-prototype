@@ -81,11 +81,11 @@ Every line also has a `status`. **Pending** lines are noticed live, cost nothing
 block. **Committed** lines are written by the one consolidation call at the conversation boundary. Chips
 (explicit corrections) write committed lines directly.
 
-## Cost footer
+## Cost arithmetic
 
-Per call: consolidate 5.2k in / 200 out, opener 2.3k in / 80 out, diary block 300 tokens per turn, at 0.30 USD
-per million tokens blended API-equivalent. Noticing is free and logs nothing; exactly one consolidation call
-appears per End conversation. Per paid user per month:
+The demo no longer shows a cost line in the UI; the arithmetic it used is kept here. Per call: consolidate 5.2k in / 200 out,
+opener 2.3k in / 80 out, diary block 300 tokens per turn, at 0.30 USD per million tokens blended API-equivalent.
+Per paid user per month:
 
 ```
 (23 consolidations x 5.4k + 23 openers x 2.4k + 450 turns x 300) = 314k tokens x $0.30/M = about $0.09
@@ -107,7 +107,7 @@ The frame is Candy.ai's real conversation screen, captured once from a logged-in
   external asset reference stripped.
 
 The result is `shell/conversation.html` (also emitted as `lib/shellHtml.ts`) and `shell/candy-purged.css`.
-Six slots are left in the frame (`thread`, `composer`, `chatlist`, `drawer`, `controls`, `cost`) and
+Five slots are used in the frame (`thread`, `composer`, `chatlist`, `drawer`, `controls`) and
 `components/CandyShell.tsx` portals the demo's React components into them, so Her Diary lives in the
 right-hand panel where Candy shows the character profile. The raw capture stays in `shell/raw/`, which is
 gitignored; rerun `python shell/build_shell.py` to regenerate the fixture. The frame is a visual stand-in
