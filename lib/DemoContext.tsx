@@ -15,6 +15,7 @@ export type LastRun = {
   writtenIds: string[];
   rejectedCount: number;
   keptOut: number;
+  letGo: number;
   date: string;
   nothingNew: boolean;
 };
@@ -274,6 +275,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
         writtenIds,
         rejectedCount: res.rejectedIds.length,
         keptOut: res.keptOut,
+        letGo: res.letGo,
         date: today,
         nothingNew: writtenIds.length === 0 && res.rejectedIds.length === 0,
       });

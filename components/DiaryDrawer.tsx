@@ -72,6 +72,7 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
             `${lastRun.writtenIds.length} ${plural(lastRun.writtenIds.length, 'line', 'lines')} written down`,
             lastRun.rejectedCount > 0 ? `${lastRun.rejectedCount} I kept to myself` : null,
             lastRun.keptOut > 0 ? `${lastRun.keptOut} you crossed out, so I didn't` : null,
+            lastRun.letGo > 0 ? `${lastRun.letGo} I let go` : null,
           ]
             .filter(Boolean)
             .join(' · ')

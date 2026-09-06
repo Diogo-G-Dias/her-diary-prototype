@@ -96,7 +96,7 @@ export function commit(diary: Diary, converted: DiaryLine[], fresh: DiaryLine[],
 export function writeNow(diary: Diary, line: DiaryLine): Diary {
   const dead = new Set(tombstones(diary));
   if (dead.has(line.id) || diary.lines.some((l) => l.deletedAt && l.sourceMsgId && l.sourceMsgId === line.sourceMsgId)) return diary;
-  const lines = diary.lines.filter((l) => !(l.status === 'pending' && !l.deletedAt && l.sourceMsgId === line.sourceMsgId));
+  const lines = diary.lines.filter((l) => !(l.status === 'pending' && !l.deletedAt && l.sourceMsgId === line.sourceMsgId && l.kind === line.kind));
   return { ...diary, lines: [...lines, line] };
 }
 
