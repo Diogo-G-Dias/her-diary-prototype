@@ -15,8 +15,9 @@ const REASON: Record<Rejected['reason'], string> = {
   third_party: 'someone else',
 };
 
-export default function DiaryDrawer() {
+export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer' | 'panel' }) {
   const { drawerOpen, toggleDrawer, diary, pendingRejected, consolidation, lastRun, markSeen, dayOffset, hydrated } = useDemo();
+  const panel = variant === 'panel';
   const { shown, folded } = useMemo(() => pageOf(diary), [diary]);
   const pending = useMemo(() => pendingLines(diary), [diary]);
   const deleted = useMemo(() => deletedLines(diary), [diary]);
@@ -59,18 +60,39 @@ export default function DiaryDrawer() {
       : `${noticedCount} noticed · ${writtenCount} written`;
 
   return (
-    <aside className={`${styles.drawer} ${drawerOpen ? styles.open : ''}`} aria-label="Her Diary" aria-hidden={!drawerOpen}>
+    <aside
+      className={`${styles.drawer} ${panel ? styles.panel : ''} ${drawerOpen || panel ? styles.open : ''}`}
+      aria-label="Her Diary"
+      aria-hidden={!panel && !drawerOpen}
+    >
+      {panel && (
+        <div className="flex items-stretch lg:px-0" aria-hidden>
+          <div className="flex flex-1">
+            <span className="flex flex-1 items-center justify-center px-2.5 text-[15px] font-semibold font-poppins text-center lg:py-4 text-white border-b-2 border-white">
+              Her Diary
+            </span>
+            <span className="flex flex-1 items-center justify-center px-2.5 text-[15px] font-semibold font-poppins text-center lg:py-4 text-grey-default border-b border-black-light">
+              Profile
+            </span>
+            <span className="flex flex-1 items-center justify-center px-2.5 text-[15px] font-semibold font-poppins text-center lg:py-4 text-grey-default border-b border-black-light">
+              Gallery
+            </span>
+          </div>
+        </div>
+      )}
       <div className={styles.head}>
         <div>
-          <h2 className={styles.title}>Her Diary</h2>
+          {!panel && <h2 className={styles.title}>Her Diary</h2>}
           <p className={styles.sub}>
             She notices things as you talk, then writes the page when the conversation ends. Edit, delete or pin any line. Yours she
             never touches.
           </p>
         </div>
-        <button type="button" className={styles.close} onClick={toggleDrawer} aria-label="Close diary">
-          ×
-        </button>
+        {!panel && (
+          <button type="button" className={styles.close} onClick={toggleDrawer} aria-label="Close diary">
+            ×
+          </button>
+        )}
       </div>
 
       <div className={styles.status} aria-live="polite">

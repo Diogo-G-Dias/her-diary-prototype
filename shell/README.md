@@ -36,3 +36,10 @@ Dark theme (near-black background ~#0E0E12, panels ~#17171D, text ~#ECECEC, acce
 
 "Recognisably Candy", not pixel-perfect. Our components (`DiaryDrawer`, `RegenerateChips`,
 `ReturnPanels`, `CostFooter`, `DemoControls`) mount into this frame.
+
+## Status
+
+Captured. `build_shell.py` turns `raw/page.html` and `raw/application.css` into `conversation.html`,
+`candy-purged.css` and `../lib/shellHtml.ts`. The slot markers it leaves are `data-slot="thread"`,
+`composer`, `chatlist`, `drawer`, `controls` and `cost`; `components/CandyShell.tsx` mounts the demo into
+them. `raw/` is gitignored and must stay that way.

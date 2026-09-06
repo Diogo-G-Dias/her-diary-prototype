@@ -54,7 +54,7 @@ Open http://localhost:3000. **Restart demo** in the top bar clears the saved dia
 | The three rules, enforced in code (`lib/diaryStore.ts`, `lib/fakeModel.ts`), plus a tombstone check by wording, not only by id | Replies to free-typed messages: scripted sequence, then a small pool of fallback lines |
 | The return-moment logic: opener chosen from what is live on the page, omitting deleted or expired lines | Reply generation: scripted sequence plus one variant per chip |
 | The cost arithmetic from the stated assumptions | Consent flow, EU opt-in, EverGuard, cohorts, in-house inference, a real inactivity trigger |
-| Dates and expiry on a fictional calendar (Wed 6 Sep, presentation Thu, return Fri) | Everything about the real Candy product |
+| Dates and expiry on a fictional calendar (Wed 6 Sep, presentation Thu, return Fri) | The frame: a scrubbed static capture of the conversation screen, nothing in it works except our slots |
 
 ## Data model and the three rules
 
@@ -96,10 +96,22 @@ One job per conversation, one capped page, so the cost is flat with tenure.
 
 ## The shell
 
-`shell/candy.css` is a static lookalike of Candy.ai's conversation screen built from the description in
-`shell/README.md`: dark theme, character list, centred thread, rounded bubbles, composer with Regenerate. No
-Candy assets, scripts, content or identifiers are used. A raw capture, if one is ever made, lives in
-`shell/raw/` and is gitignored.
+The frame is Candy.ai's real conversation screen, captured once from a logged-in session with Chrome's
+"Webpage, Complete" save and turned into a static, scrubbed fixture by `shell/build_shell.py`:
+
+- scripts, iframes, hidden modals, toasts, forms and every identifier, data attribute, handler and link
+  target removed;
+- every message, chat-list name, preview and timestamp replaced, every image swapped for a neutral
+  placeholder, the character renamed Aria, the logo replaced by a text wordmark;
+- the stylesheet purged from 943 KB to the rules the frame and our components actually use, with every
+  external asset reference stripped.
+
+The result is `shell/conversation.html` (also emitted as `lib/shellHtml.ts`) and `shell/candy-purged.css`.
+Six slots are left in the frame (`thread`, `composer`, `chatlist`, `drawer`, `controls`, `cost`) and
+`components/CandyShell.tsx` portals the demo's React components into them, so Her Diary lives in the
+right-hand panel where Candy shows the character profile. The raw capture stays in `shell/raw/`, which is
+gitignored; rerun `python shell/build_shell.py` to regenerate the fixture. The frame is a visual stand-in
+for a take-home demo, not a copy of the product: nothing in it is interactive except our components.
 
 ## No personal data
 

@@ -399,3 +399,18 @@
   font-size: 11.5px;
   color: var(--muted);
 }
+
+/* Panel variant: lives in the shell's right column, no sliding. */
+.panel {
+  position: static;
+  transform: none;
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+  border-left: 0;
+  background: transparent;
+}
+
+.panel .head {
+  padding-top: 12px;
+}
