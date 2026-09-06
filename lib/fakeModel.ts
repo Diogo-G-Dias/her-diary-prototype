@@ -10,6 +10,7 @@ import { saysTheSame } from './notice';
 
 export const CHARACTER = conversation.character;
 export const SEED_THREAD: Message[] = conversation.thread as Message[];
+export const MAX_PER_BOUNDARY = 2;
 
 export const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 export const thinkTime = () => 600 + Math.floor(Math.random() * 800); // 600 to 1400 ms
@@ -53,6 +54,7 @@ export type ConsolidateResult = {
   droppedPendingIds: string[]; // pending lines refused because they repeat something the user deleted
   rejectedIds: string[]; // sensitive candidates, struck out
   keptOut: number; // how many candidates the tombstone list stopped
+  letGo: number; // candidates she chose not to write: the page stays short
   usage: ReturnType<typeof callUsage>;
 };
 
@@ -125,12 +127,24 @@ export async function consolidate(input: ConsolidateInput): Promise<ConsolidateR
     });
   });
 
+  // She keeps the page short: at most MAX_PER_BOUNDARY lines per conversation, taste first, then the
+  // scene, then facts. The rest she lets go.
+  const rank = (l: DiaryLine) => (l.kind === 'taste' ? 0 : l.kind === 'scene' ? 1 : 2);
+  const candidates = [...converted.map((l) => ({ l, from: 'pending' as const })), ...fresh.map((l) => ({ l, from: 'fresh' as const }))];
+  candidates.sort((a, b) => rank(a.l) - rank(b.l) || a.l.createdAt - b.l.createdAt);
+  const keep = new Set(candidates.slice(0, MAX_PER_BOUNDARY).map((c) => c.l.id));
+  const letGo = candidates.length - keep.size;
+  const keptConverted = converted.filter((l) => keep.has(l.id)).map((l, i) => ({ ...l, createdAt: base + i }));
+  const keptFresh = fresh.filter((l) => keep.has(l.id)).map((l, i) => ({ ...l, createdAt: base + keptConverted.length + i }));
+  const dropped = [...droppedPendingIds, ...converted.filter((l) => !keep.has(l.id)).map((l) => l.id)];
+
   return {
-    converted,
-    fresh,
-    droppedPendingIds,
+    converted: keptConverted,
+    fresh: keptFresh,
+    droppedPendingIds: dropped,
     rejectedIds: pendingRejected.filter((r) => r.state === 'pending').map((r) => r.id),
     keptOut,
+    letGo,
     usage: callUsage('consolidate'),
   };
 }
