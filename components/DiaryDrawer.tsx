@@ -25,7 +25,7 @@ const KIND: Record<DiaryLine['kind'], string> = {
 };
 
 export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer' | 'panel' }) {
-  const { drawerOpen, toggleDrawer, diary, pendingRejected, consolidation, lastRun, markSeen, dayOffset, hydrated } = useDemo();
+  const { drawerOpen, toggleDrawer, diary, pendingRejected, consolidation, lastRun, markSeen, dayOffset, hydrated, clearAll } = useDemo();
   const panel = variant === 'panel';
   const { shown, folded } = useMemo(() => pageOf(diary), [diary]);
   const pending = useMemo(() => pendingLines(diary), [diary]);
@@ -33,9 +33,17 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
   const writtenCount = useMemo(() => committedLines(diary).length, [diary]);
   const [showFolded, setShowFolded] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
+  const [dateFilter, setDateFilter] = useState<string | null>(null);
 
   const freshIds = useMemo(() => shown.filter((l) => l.fresh).map((l) => l.id), [shown]);
   const noticedCount = pending.length + pendingRejected.filter((r) => r.state === 'pending').length;
+  const dates = useMemo(() => Array.from(new Set(shown.map((l) => l.date))), [shown]);
+  const sections = useMemo(() => {
+    const visible = dateFilter ? shown.filter((l) => l.date === dateFilter) : shown;
+    const map = new Map<string, DiaryLine[]>();
+    visible.forEach((l) => map.set(l.date, [...(map.get(l.date) ?? []), l]));
+    return Array.from(map.entries());
+  }, [shown, dateFilter]);
 
   useEffect(() => {
     if (consolidation === 'running') setTypedCount(0);
@@ -147,20 +155,42 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
           </header>
         )}
 
-        {shown.map((line) => {
-          const freshIdx = freshIds.indexOf(line.id);
-          const state: LineState =
-            freshIdx === -1 ? 'static' : freshIdx < typedCount ? 'static' : freshIdx === typedCount ? 'typing' : 'pending';
-          return (
-            <Line
-              key={line.id}
-              line={line}
-              state={state}
-              dayOffset={dayOffset}
-              onTyped={() => setTypedCount((n) => Math.max(n, freshIdx + 1))}
-            />
-          );
-        })}
+        {dates.length > 1 && (
+          <div className={styles.dateChips} role="group" aria-label="Filter by date">
+            <button type="button" className={dateFilter === null ? styles.chipOn : ''} onClick={() => setDateFilter(null)}>
+              all
+            </button>
+            {dates.map((d) => (
+              <button key={d} type="button" className={dateFilter === d ? styles.chipOn : ''} onClick={() => setDateFilter(dateFilter === d ? null : d)}>
+                {d}
+              </button>
+            ))}
+          </div>
+        )}
+        {sections.map(([date, lines]) => (
+          <section key={date} className={styles.dateSection} aria-label={date}>
+            <header className={styles.dateHead}>
+              <span>{date}</span>
+              <span className={styles.groupNote}>
+                {lines.length} {lines.length === 1 ? 'line' : 'lines'}
+              </span>
+            </header>
+            {lines.map((line) => {
+              const freshIdx = freshIds.indexOf(line.id);
+              const state: LineState =
+                freshIdx === -1 ? 'static' : freshIdx < typedCount ? 'static' : freshIdx === typedCount ? 'typing' : 'pending';
+              return (
+                <Line
+                  key={line.id}
+                  line={line}
+                  state={state}
+                  dayOffset={dayOffset}
+                  onTyped={() => setTypedCount((n) => Math.max(n, freshIdx + 1))}
+                />
+              );
+            })}
+          </section>
+        ))}
         {folded.length > 0 && (
           <button type="button" className={styles.fold} onClick={() => setShowFolded((s) => !s)}>
             {showFolded ? 'hide' : 'show'} {folded.length} older {folded.length === 1 ? 'line' : 'lines'}
@@ -182,9 +212,14 @@ export default function DiaryDrawer({ variant = 'drawer' }: { variant?: 'drawer'
         </details>
       )}
 
-      <p className={styles.foot}>
-        All of this comes from what you told me. What you like stays. Where we were fades. Never more than twelve lines.
-      </p>
+      <div className={styles.footRow}>
+        <p className={styles.foot}>All of this comes from what you told me. What you like stays. Where we were fades. Never more than twelve lines.</p>
+        {(diary.lines.length > 0 || pendingRejected.length > 0) && (
+          <button type="button" className={styles.tearOut} onClick={clearAll} title="Delete every entry. She starts a blank page.">
+            tear out the page
+          </button>
+        )}
+      </div>
     </aside>
   );
 }

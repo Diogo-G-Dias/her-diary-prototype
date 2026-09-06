@@ -52,6 +52,7 @@ type DemoActions = {
   toggleDrawer: () => void;
   editLine: (id: string, text: string) => void;
   deleteLine: (id: string) => void;
+  clearAll: () => void;
   togglePin: (id: string) => void;
   markSeen: () => void;
 };
@@ -308,6 +309,15 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     [showToast, today],
   );
 
+  const clearAll = useCallback(() => {
+    // Tear the page out: nothing kept, nothing blocked. She can start noticing again.
+    setDiary(store.emptyDiary());
+    setPendingRejected([]);
+    setLastRun(null);
+    setConsolidation('idle');
+    showToast('Page torn out. Nothing kept, nothing blocked.');
+  }, [showToast]);
+
   const togglePin = useCallback((id: string) => setDiary((d) => store.togglePin(d, id)), []);
   const markSeen = useCallback(() => setDiary((d) => store.markSeen(d)), []);
 
@@ -342,6 +352,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       toggleDrawer,
       editLine,
       deleteLine,
+      clearAll,
       togglePin,
       markSeen,
     }),
@@ -375,6 +386,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       toggleDrawer,
       editLine,
       deleteLine,
+      clearAll,
       togglePin,
       markSeen,
     ],
