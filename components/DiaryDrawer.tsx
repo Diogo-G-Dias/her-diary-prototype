@@ -230,7 +230,6 @@ function PendingLine({ line }: { line: DiaryLine }) {
   const [open, setOpen] = useState(false);
   return (
     <article className={`${styles.row} ${styles.pendingLine} ${open ? styles.openRow : ''}`} title={`${KIND[line.kind]} · not written down yet`}>
-      <span className={`${styles.dot} ${styles[line.kind]}`} aria-hidden />
       <div className={styles.rowBody}>
         <p className={`${styles.rowText} ${styles.ink}`}>{line.text}</p>
         {open && <p className={styles.rowDetail}>{KIND[line.kind]} · noticed while we talked · not written down yet</p>}
@@ -252,7 +251,6 @@ function RejectedLine({ r }: { r: Rejected }) {
   const rejecting = r.state === 'rejecting';
   return (
     <article className={`${styles.row} ${styles.pendingLine} ${rejecting ? styles.rejecting : ''}`} title={r.note}>
-      <span className={`${styles.dot} ${styles.sensitiveDot}`} aria-hidden />
       <p className={`${styles.rowText} ${styles.ink} ${rejecting ? styles.struck : ''}`}>&ldquo;{r.fragment}&rdquo;</p>
       <span className={`${styles.rowMeta} ${rejecting ? styles.reason : ''}`}>{rejecting ? `kept to myself · ${REASON[r.reason]}` : 'yours, not mine'}</span>
     </article>
@@ -291,7 +289,6 @@ function Line({
       title={open ? undefined : `${meta}
 ${line.text}`}
     >
-      <span className={`${styles.dot} ${styles[line.kind]}`} aria-hidden />
       <div className={styles.rowBody}>
         <p className={`${styles.rowText} ${hers ? styles.ink : ''}`}>
           {state === 'typing' ? <Typewriter text={line.text} msPerChar={25} startDelay={250} onDone={onTyped} /> : line.text}

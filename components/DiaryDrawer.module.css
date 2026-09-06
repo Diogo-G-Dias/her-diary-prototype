@@ -881,3 +881,20 @@
 .dateSection .rowMeta {
   display: none;
 }
+
+/* No colour coding: one neutral edge for every row. */
+.row.hers,
+.row.yours,
+.row.pendingLine {
+  border-left: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.row.pendingLine {
+  background: transparent;
+  border-style: dashed;
+}
+
+.row {
+  padding-left: 12px;
+}
