@@ -1,0 +1,9 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "shell/candy-purged.css"
+    ],
+    "ignoreValues": []
+  }
+}
