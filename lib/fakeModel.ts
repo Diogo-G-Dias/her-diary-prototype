@@ -127,9 +127,9 @@ export async function consolidate(input: ConsolidateInput): Promise<ConsolidateR
     });
   });
 
-  // She keeps the page short: at most MAX_PER_BOUNDARY lines per conversation, taste first, then the
-  // scene, then facts. The rest she lets go.
-  const rank = (l: DiaryLine) => (l.kind === 'taste' ? 0 : l.kind === 'scene' ? 1 : 2);
+  // She keeps the page short: at most MAX_PER_BOUNDARY lines per conversation. Dated facts first (they
+  // pay off when you come back), then where you were, then taste. The rest she lets go.
+  const rank = (l: DiaryLine) => (l.kind === 'fact' ? 0 : l.kind === 'scene' ? 1 : 2);
   const candidates = [...converted.map((l) => ({ l, from: 'pending' as const })), ...fresh.map((l) => ({ l, from: 'fresh' as const }))];
   candidates.sort((a, b) => rank(a.l) - rank(b.l) || a.l.createdAt - b.l.createdAt);
   const keep = new Set(candidates.slice(0, MAX_PER_BOUNDARY).map((c) => c.l.id));
